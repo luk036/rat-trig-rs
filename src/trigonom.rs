@@ -1,3 +1,4 @@
+use core::convert::From;
 /// Rational Trigonometry is a new approach to classical trigonometry, developed by Norman
 /// Wildberger, that aims to simplify and clarify the subject by using only rational numbers
 /// and operations, rather than irrational numbers and limits.
@@ -9,38 +10,36 @@
 ///
 /// In rational trigonometry, Wildberger replaces these circular definitions with ones based
 /// on lines and line segments, which allows for a more straightforward and intuitive approach.
-/// The fundamental concepts in rational trigonometry are the "quadaverage" and the "dilated 
+/// The fundamental concepts in rational trigonometry are the "quadaverage" and the "dilated
 /// directed angle," which are defined in terms of lines and line segments, rather than circles.
 ///
 /// Rational trigonometry has been gaining popularity in recent years, as it provides a useful
-/// alternative to traditional trigonometry for certain applications, such as computer graphics, 
-/// robotics, and physics. It can also be a helpful tool for students who struggle with the 
+/// alternative to traditional trigonometry for certain applications, such as computer graphics,
+/// robotics, and physics. It can also be a helpful tool for students who struggle with the
 /// irrational numbers and limits used in traditional trigonometry.
 ///
-/// In summary, Rational Trigonometry is a new approach to classical trigonometry that uses 
-/// rational numbers and operations, rather than irrational numbers and limits, making it a more 
+/// In summary, Rational Trigonometry is a new approach to classical trigonometry that uses
+/// rational numbers and operations, rather than irrational numbers and limits, making it a more
 /// straightforward and intuitive subject to understand and work with.
-
 use core::ops::{Add, Mul, Sub};
-use core::convert::From;
 
 /// The function `archimedes` calculates the area of a triangle using Archimedes' formula with the
 /// lengths of the three sides provided as `Fraction<i64>` values.
-/// 
+///
 /// Arguments:
-/// 
+///
 /// * `q_1`: Represents the length of the first side of the triangle.
 /// * `q_2`: The parameters `q_1`, `q_2`, and `q_3` represent the lengths of the sides of a triangle. In
 ///          the context of Archimedes' formula for the area of a triangle, `q_1`, `q_2`, and `q_3`
 /// * `q_3`: The parameter `q_3` represents the length of the third side of the triangle.
-/// 
+///
 /// Returns:
-/// 
+///
 /// The function `archimedes` returns the area of a triangle computed using Archimedes' formula, given
 /// the lengths of the 3 sides.
-/// 
+///
 /// Example:
-/// 
+///
 /// ```rust
 /// use num_rational::Rational32;
 /// use rat_trig_rs::trigonom::archimedes;
@@ -53,7 +52,7 @@ use core::convert::From;
 #[inline]
 pub fn archimedes<T>(q_1: &T, q_2: &T, q_3: &T) -> T
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + From<i32>
+    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + From<i32>,
 {
     let temp = *q_1 + *q_2 - *q_3;
     T::from(4) * *q_1 * *q_2 - temp * temp
