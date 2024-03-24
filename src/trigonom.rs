@@ -62,7 +62,7 @@ where
 mod tests {
     use super::*;
     use num_rational::Ratio;
-    // use fractions::Fraction;
+    use fractions::Fraction;
 
     #[test]
     fn test_archimedes2() {
@@ -82,17 +82,17 @@ mod tests {
 
     #[test]
     fn test_archimedes() {
-        let q_1 = Ratio::<i32>::new(1, 2);
-        let q_2 = Ratio::<i32>::new(1, 4);
-        let q_3 = Ratio::<i32>::new(1, 6);
-        assert_eq!(archimedes(&q_1, &q_2, &q_3), Ratio::<i32>::new(23, 144));
+        let q_1 = Ratio::<i64>::new(1, 2);
+        let q_2 = Ratio::<i64>::new(1, 4);
+        let q_3 = Ratio::<i64>::new(1, 6);
+        assert_eq!(archimedes(&q_1, &q_2, &q_3), Ratio::<i64>::new(23, 144));
     }
 
-    // #[test]
-    // fn test_archimedes() {
-    //     let q_1 = Fraction::<i32>::new(1, 2);
-    //     let q_2 = Fraction::<i32>::new(1, 4);
-    //     let q_3 = Fraction::<i32>::new(1, 6);
-    //     assert_eq!(archimedes(&q_1, &q_2, &q_3), Fraction::<i32>::new(23, 144));
-    // }
+    #[test]
+    fn test_archimedes4() {
+        let q_1 = Fraction::<i32>::new(1, 2);
+        let q_2 = Fraction::<i32>::new(1, 4);
+        let q_3 = Fraction::<i32>::new(1, 6);
+        assert_eq!(archimedes(&q_1, &q_2, &q_3), Fraction::<i32>::new(23, 144));
+    }
 }
