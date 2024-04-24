@@ -1,4 +1,4 @@
-# rat-trig-rs
+# 📐 rat-trig-rs
 
 [![Crates.io](https://img.shields.io/crates/v/rat-trig-rs.svg)](https://crates.io/crates/rat-trig-rs)
 [![Docs.rs](https://docs.rs/rat-trig-rs/badge.svg)](https://docs.rs/rat-trig-rs)
