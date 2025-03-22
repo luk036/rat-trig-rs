@@ -1,5 +1,7 @@
 # 📐 rat-trig-rs
 
+Rational Trigonometry
+
 [![Crates.io](https://img.shields.io/crates/v/rat-trig-rs.svg)](https://crates.io/crates/rat-trig-rs)
 [![Docs.rs](https://docs.rs/rat-trig-rs/badge.svg)](https://docs.rs/rat-trig-rs)
 [![CI](https://github.com/luk036/rat-trig-rs/workflows/CI/badge.svg)](https://github.com/luk036/rat-trig-rs/actions)
