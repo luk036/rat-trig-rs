@@ -1,4 +1,3 @@
-use core::convert::From;
 /// Rational Trigonometry is a new approach to classical trigonometry, developed by Norman
 /// Wildberger, that aims to simplify and clarify the subject by using only rational numbers
 /// and operations, rather than irrational numbers and limits.
@@ -21,7 +20,9 @@ use core::convert::From;
 /// In summary, Rational Trigonometry is a new approach to classical trigonometry that uses
 /// rational numbers and operations, rather than irrational numbers and limits, making it a more
 /// straightforward and intuitive subject to understand and work with.
-use core::ops::{Add, Mul, Sub};
+use core::ops::{Add, Div, Mul, Sub};
+
+use num_traits::{One, Zero};
 
 /// The function `archimedes` calculates the area of a triangle using Archimedes' formula with the
 /// lengths of the three sides provided as `Fraction<i64>` values.
@@ -52,10 +53,107 @@ use core::ops::{Add, Mul, Sub};
 #[inline]
 pub fn archimedes<T>(q_1: &T, q_2: &T, q_3: &T) -> T
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + From<i32>,
+    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + One + Zero,
 {
     let temp = *q_1 + *q_2 - *q_3;
-    T::from(4) * *q_1 * *q_2 - temp * temp
+    let four = T::one() + T::one() + T::one() + T::one();
+    four * *q_1 * *q_2 - temp * temp
+}
+
+pub fn quadrance<T>(p_1: (T, T), p_2: (T, T)) -> T
+where
+    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
+{
+    let dx = p_1.0 - p_2.0;
+    let dy = p_1.1 - p_2.1;
+    dx * dx + dy * dy
+}
+
+pub fn spread<T>(v_1: (T, T), v_2: (T, T)) -> T
+where
+    T: std::marker::Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + One
+        + Zero,
+{
+    let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
+    let q_1 = v_1.0 * v_1.0 + v_1.1 * v_1.1;
+    let q_2 = v_2.0 * v_2.0 + v_2.1 * v_2.1;
+    T::one() - dot_product * dot_product / (q_1 * q_2)
+}
+
+pub fn cross<T>(v_1: (T, T), v_2: (T, T)) -> T
+where
+    T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
+{
+    v_1.0 * v_2.1 - v_1.1 * v_2.0
+}
+
+pub fn quadrance_from_line<T>(p: (T, T), l: (T, T, T)) -> T
+where
+    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T>,
+{
+    let temp = l.0 * p.0 + l.1 * p.1 + l.2;
+    temp * temp / (l.0 * l.0 + l.1 * l.1)
+}
+
+pub fn spread_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
+where
+    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T>,
+{
+    let temp = l_1.0 * l_2.1 - l_1.1 * l_2.0;
+    temp * temp / ((l_1.0 * l_1.0 + l_1.1 * l_1.1) * (l_2.0 * l_2.0 + l_2.1 * l_2.1))
+}
+
+pub fn cross_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
+where
+    T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
+{
+    l_1.0 * l_2.1 - l_1.1 * l_2.0
+}
+
+pub fn quadrance_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, T, T)
+where
+    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
+{
+    (
+        quadrance(p_2, p_3),
+        quadrance(p_1, p_3),
+        quadrance(p_1, p_2),
+    )
+}
+
+pub fn spread_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, T, T)
+where
+    T: std::marker::Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + One
+        + Zero,
+{
+    let q_1 = quadrance(p_2, p_3);
+    let q_2 = quadrance(p_1, p_3);
+    let q_3 = quadrance(p_1, p_2);
+    let four = T::one() + T::one() + T::one() + T::one();
+    let s_1 = T::one() - (q_2 + q_3 - q_1) * (q_2 + q_3 - q_1) / (four * q_2 * q_3);
+    let s_2 = T::one() - (q_1 + q_3 - q_2) * (q_1 + q_3 - q_2) / (four * q_1 * q_3);
+    let s_3 = T::one() - (q_1 + q_2 - q_3) * (q_1 + q_2 - q_3) / (four * q_1 * q_2);
+    (s_1, s_2, s_3)
+}
+
+pub fn cross_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> T
+where
+    T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
+{
+    cross(
+        (p_2.0 - p_1.0, p_2.1 - p_1.1),
+        (p_3.0 - p_1.0, p_3.1 - p_1.1),
+    )
 }
 
 #[cfg(test)]
@@ -88,11 +186,97 @@ mod tests {
         assert_eq!(archimedes(&q_1, &q_2, &q_3), Ratio::<i32>::new(23, 144));
     }
 
+    #[test]
+    fn test_archimedes_zero() {
+        let q_1 = Ratio::<i64>::new(0, 1);
+        let q_2 = Ratio::<i64>::new(0, 1);
+        let q_3 = Ratio::<i64>::new(0, 1);
+        assert_eq!(archimedes(&q_1, &q_2, &q_3), Ratio::<i64>::new(0, 1));
+    }
+
+    #[test]
+    fn test_archimedes_negative() {
+        let q_1 = Ratio::<i64>::new(-1, 2);
+        let q_2 = Ratio::<i64>::new(-1, 4);
+        let q_3 = Ratio::<i64>::new(-1, 6);
+        assert_eq!(archimedes(&q_1, &q_2, &q_3), Ratio::<i64>::new(23, 144));
+    }
+
+    #[test]
+    fn test_archimedes_i32() {
+        let q_1: i32 = 1;
+        let q_2: i32 = 2;
+        let q_3: i32 = 3;
+        assert_eq!(archimedes(&q_1, &q_2, &q_3), 8);
+    }
+
+    #[test]
+    fn test_quadrance() {
+        let p1 = (1, 1);
+        let p2 = (4, 5);
+        assert_eq!(quadrance(p1, p2), 25);
+    }
+
+    #[test]
+    fn test_spread() {
+        let v1 = (1.0, 1.0);
+        let v2 = (1.0, 0.0);
+        assert_eq!(spread(v1, v2), 0.5);
+    }
+
+    #[test]
+    fn test_cross() {
+        let v1 = (1, 1);
+        let v2 = (1, 0);
+        assert_eq!(cross(v1, v2), -1);
+    }
+
+    #[test]
+    fn test_quadrance_from_line() {
+        let p1 = (1.0, 1.0);
+        let l1 = (1.0, 1.0, 1.0);
+        assert_eq!(quadrance_from_line(p1, l1), 4.5);
+    }
+
+    #[test]
+    fn test_spread_from_line() {
+        let l1 = (1.0, 1.0, 1.0);
+        let l2 = (1.0, 0.0, 0.0);
+        assert_eq!(spread_from_line(l1, l2), 0.5);
+    }
+
+    #[test]
+    fn test_cross_from_line() {
+        let l1 = (1, 1, 1);
+        let l2 = (1, 0, 0);
+        assert_eq!(cross_from_line(l1, l2), -1);
+    }
+
+    #[test]
+    fn test_quadrance_from_three_points() {
+        let p1 = (0, 0);
+        let p2 = (1, 0);
+        let p3 = (0, 1);
+        assert_eq!(quadrance_from_three_points(p1, p2, p3), (2, 1, 1));
+    }
+
+    #[test]
+    fn test_spread_from_three_points() {
+        let p1 = (0.0, 0.0);
+        let p2 = (1.0, 0.0);
+        let p3 = (0.0, 1.0);
+        assert_eq!(spread_from_three_points(p1, p2, p3), (1.0, 0.5, 0.5));
+    }
+
+    #[test]
+    fn test_cross_from_three_points() {
+        let p1 = (0, 0);
+        let p2 = (1, 0);
+        let p3 = (0, 1);
+        assert_eq!(cross_from_three_points(p1, p2, p3), 1);
+    }
+
     // #[test]
     // fn test_archimedes4() {
     //     let q_1 = Fraction::<i64>::new(1, 2);
-    //     let q_2 = Fraction::<i64>::new(1, 4);
-    //     let q_3 = Fraction::<i64>::new(1, 6);
-    //     assert_eq!(archimedes(&q_1, &q_2, &q_3), Fraction::<i64>::new(23, 144));
-    // }
 }
