@@ -60,6 +60,7 @@ where
     four * *q_1 * *q_2 - temp * temp
 }
 
+#[inline]
 pub fn quadrance<T>(p_1: (T, T), p_2: (T, T)) -> T
 where
     T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
@@ -69,6 +70,7 @@ where
     dx * dx + dy * dy
 }
 
+#[inline]
 pub fn spread<T>(v_1: (T, T), v_2: (T, T)) -> T
 where
     T: std::marker::Copy
@@ -80,11 +82,12 @@ where
         + Zero,
 {
     let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
-    let q_1 = v_1.0 * v_1.0 + v_1.1 * v_1.1;
-    let q_2 = v_2.0 * v_2.0 + v_2.1 * v_2.1;
+    let q_1 = quadrance(v_1, (T::zero(), T::zero()));
+    let q_2 = quadrance(v_2, (T::zero(), T::zero()));
     T::one() - dot_product * dot_product / (q_1 * q_2)
 }
 
+#[inline]
 pub fn cross<T>(v_1: (T, T), v_2: (T, T)) -> T
 where
     T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
@@ -92,29 +95,33 @@ where
     v_1.0 * v_2.1 - v_1.1 * v_2.0
 }
 
+#[inline]
 pub fn quadrance_from_line<T>(p: (T, T), l: (T, T, T)) -> T
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T>,
+    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + Zero,
 {
     let temp = l.0 * p.0 + l.1 * p.1 + l.2;
-    temp * temp / (l.0 * l.0 + l.1 * l.1)
+    temp * temp / quadrance((l.0, l.1), (T::zero(), T::zero()))
 }
 
+#[inline]
 pub fn spread_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T>,
+    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + Zero,
 {
-    let temp = l_1.0 * l_2.1 - l_1.1 * l_2.0;
-    temp * temp / ((l_1.0 * l_1.0 + l_1.1 * l_1.1) * (l_2.0 * l_2.0 + l_2.1 * l_2.1))
+    let temp = cross((l_1.0, l_1.1), (l_2.0, l_2.1));
+    temp * temp / (quadrance((l_1.0, l_1.1), (T::zero(), T::zero())) * quadrance((l_2.0, l_2.1), (T::zero(), T::zero())))
 }
 
+#[inline]
 pub fn cross_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
 where
     T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
 {
-    l_1.0 * l_2.1 - l_1.1 * l_2.0
+    cross((l_1.0, l_1.1), (l_2.0, l_2.1))
 }
 
+#[inline]
 pub fn quadrance_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, T, T)
 where
     T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
@@ -126,6 +133,7 @@ where
     )
 }
 
+#[inline]
 pub fn spread_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, T, T)
 where
     T: std::marker::Copy
@@ -146,6 +154,7 @@ where
     (s_1, s_2, s_3)
 }
 
+#[inline]
 pub fn cross_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> T
 where
     T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
