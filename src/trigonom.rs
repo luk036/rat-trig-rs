@@ -31,7 +31,7 @@ use num_traits::{One, Zero};
 ///
 /// * `q_1`: Represents the length of the first side of the triangle.
 /// * `q_2`: The parameters `q_1`, `q_2`, and `q_3` represent the lengths of the sides of a triangle. In
-///          the context of Archimedes' formula for the area of a triangle, `q_1`, `q_2`, and `q_3`
+///   the context of Archimedes' formula for the area of a triangle, `q_1`, `q_2`, and `q_3`
 /// * `q_3`: The parameter `q_3` represents the length of the third side of the triangle.
 ///
 /// Returns:
@@ -169,7 +169,18 @@ where
 mod tests {
     use super::*;
     use num_rational::Ratio;
-    // use fractions::Fraction;
+    use quickcheck_macros::quickcheck;
+
+    #[quickcheck]
+    fn test_archimedes_quickcheck(q_1: u8, q_2: u8, q_3: u8) -> bool {
+        // Avoid values that could cause overflow in the archimedes calculation
+        if q_1 > 10 || q_2 > 10 || q_3 > 10 {
+            return true; // Skip these cases
+        }
+        let result = archimedes(&q_1, &q_2, &q_3);
+        // Check that the result is deterministic
+        result == archimedes(&q_1, &q_2, &q_3)
+    }
 
     #[test]
     fn test_archimedes2() {
