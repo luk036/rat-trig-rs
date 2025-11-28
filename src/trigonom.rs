@@ -98,7 +98,12 @@ where
 #[inline]
 pub fn quadrance_from_line<T>(p: (T, T), l: (T, T, T)) -> T
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + Zero,
+    T: std::marker::Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + Zero,
 {
     let temp = l.0 * p.0 + l.1 * p.1 + l.2;
     temp * temp / quadrance((l.0, l.1), (T::zero(), T::zero()))
@@ -107,10 +112,17 @@ where
 #[inline]
 pub fn spread_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + Zero,
+    T: std::marker::Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + Zero,
 {
     let temp = cross((l_1.0, l_1.1), (l_2.0, l_2.1));
-    temp * temp / (quadrance((l_1.0, l_1.1), (T::zero(), T::zero())) * quadrance((l_2.0, l_2.1), (T::zero(), T::zero())))
+    temp * temp
+        / (quadrance((l_1.0, l_1.1), (T::zero(), T::zero()))
+            * quadrance((l_2.0, l_2.1), (T::zero(), T::zero())))
 }
 
 #[inline]
