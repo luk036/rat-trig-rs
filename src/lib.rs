@@ -1,4 +1,5 @@
 pub mod trigonom;
+pub mod const_trigonom;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
