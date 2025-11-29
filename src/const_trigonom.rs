@@ -1,6 +1,5 @@
 /// Module containing const versions of trigonometric functions for specific concrete types.
 /// These functions can be used in const contexts with concrete numeric types.
-
 /// Calculate quadrance (square of distance) between two points with i64 coordinates
 #[inline]
 pub const fn quadrance_i64(p_1: (i64, i64), p_2: (i64, i64)) -> i64 {
