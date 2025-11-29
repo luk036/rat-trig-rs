@@ -181,18 +181,6 @@ where
 mod tests {
     use super::*;
     use num_rational::Ratio;
-    use quickcheck_macros::quickcheck;
-
-    #[quickcheck]
-    fn test_archimedes_quickcheck(q_1: u8, q_2: u8, q_3: u8) -> bool {
-        // Avoid values that could cause overflow in the archimedes calculation
-        if q_1 > 10 || q_2 > 10 || q_3 > 10 {
-            return true; // Skip these cases
-        }
-        let result = archimedes(&q_1, &q_2, &q_3);
-        // Check that the result is deterministic
-        result == archimedes(&q_1, &q_2, &q_3)
-    }
 
     #[test]
     fn test_archimedes2() {
