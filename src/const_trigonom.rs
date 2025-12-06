@@ -36,7 +36,7 @@ pub const fn quadrance_f64(p_1: (f64, f64), p_2: (f64, f64)) -> f64 {
     dx * dx + dy * dy
 }
 
-/// Calculate cross product of two 2D vectors with f64 coordinates  
+/// Calculate cross product of two 2D vectors with f64 coordinates
 #[inline]
 pub const fn cross_f64(v_1: (f64, f64), v_2: (f64, f64)) -> f64 {
     v_1.0 * v_2.1 - v_1.1 * v_2.0
