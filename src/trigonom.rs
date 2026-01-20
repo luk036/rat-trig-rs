@@ -20,9 +20,9 @@
 /// In summary, Rational Trigonometry is a new approach to classical trigonometry that uses
 /// rational numbers and operations, rather than irrational numbers and limits, making it a more
 /// straightforward and intuitive subject to understand and work with.
-use core::ops::{Add, Div, Mul, Sub};
-
 use num_traits::{One, Zero};
+
+use core::ops::{Add, Div, Mul, Sub};
 
 /// The function `archimedes` calculates the area of a triangle using Archimedes' formula with the
 /// lengths of the three sides provided as `Fraction<i64>` values.
@@ -53,7 +53,7 @@ use num_traits::{One, Zero};
 #[inline]
 pub fn archimedes<T>(q_1: &T, q_2: &T, q_3: &T) -> T
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + One + Zero,
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + One + Zero,
 {
     let temp = *q_1 + *q_2 - *q_3;
     let four = T::one() + T::one() + T::one() + T::one();
@@ -63,7 +63,7 @@ where
 #[inline]
 pub fn quadrance<T>(p_1: (T, T), p_2: (T, T)) -> T
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
 {
     let dx = p_1.0 - p_2.0;
     let dy = p_1.1 - p_2.1;
@@ -73,13 +73,7 @@ where
 #[inline]
 pub fn spread<T>(v_1: (T, T), v_2: (T, T)) -> T
 where
-    T: std::marker::Copy
-        + Add<Output = T>
-        + Sub<Output = T>
-        + Mul<Output = T>
-        + Div<Output = T>
-        + One
-        + Zero,
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + One + Zero,
 {
     let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
     let q_1 = quadrance(v_1, (T::zero(), T::zero()));
@@ -90,7 +84,7 @@ where
 #[inline]
 pub fn cross<T>(v_1: (T, T), v_2: (T, T)) -> T
 where
-    T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
+    T: Copy + Sub<Output = T> + Mul<Output = T>,
 {
     v_1.0 * v_2.1 - v_1.1 * v_2.0
 }
@@ -98,12 +92,7 @@ where
 #[inline]
 pub fn quadrance_from_line<T>(p: (T, T), l: (T, T, T)) -> T
 where
-    T: std::marker::Copy
-        + Add<Output = T>
-        + Sub<Output = T>
-        + Mul<Output = T>
-        + Div<Output = T>
-        + Zero,
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + Zero,
 {
     let temp = l.0 * p.0 + l.1 * p.1 + l.2;
     temp * temp / quadrance((l.0, l.1), (T::zero(), T::zero()))
@@ -112,12 +101,7 @@ where
 #[inline]
 pub fn spread_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
 where
-    T: std::marker::Copy
-        + Add<Output = T>
-        + Sub<Output = T>
-        + Mul<Output = T>
-        + Div<Output = T>
-        + Zero,
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + Zero,
 {
     let temp = cross((l_1.0, l_1.1), (l_2.0, l_2.1));
     temp * temp
@@ -128,7 +112,7 @@ where
 #[inline]
 pub fn cross_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
 where
-    T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
+    T: Copy + Sub<Output = T> + Mul<Output = T>,
 {
     cross((l_1.0, l_1.1), (l_2.0, l_2.1))
 }
@@ -136,7 +120,7 @@ where
 #[inline]
 pub fn quadrance_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, T, T)
 where
-    T: std::marker::Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
 {
     (
         quadrance(p_2, p_3),
@@ -148,13 +132,7 @@ where
 #[inline]
 pub fn spread_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, T, T)
 where
-    T: std::marker::Copy
-        + Add<Output = T>
-        + Sub<Output = T>
-        + Mul<Output = T>
-        + Div<Output = T>
-        + One
-        + Zero,
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + One + Zero,
 {
     let q_1 = quadrance(p_2, p_3);
     let q_2 = quadrance(p_1, p_3);
@@ -169,12 +147,136 @@ where
 #[inline]
 pub fn cross_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> T
 where
-    T: std::marker::Copy + Sub<Output = T> + Mul<Output = T>,
+    T: Copy + Sub<Output = T> + Mul<Output = T>,
 {
     cross(
         (p_2.0 - p_1.0, p_2.1 - p_1.1),
         (p_3.0 - p_1.0, p_3.1 - p_1.1),
     )
+}
+
+/// Calculate quadrance (square of distance) between two 3D points
+#[inline]
+pub fn quadrance3d<T>(p_1: (T, T, T), p_2: (T, T, T)) -> T
+where
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
+{
+    let dx = p_1.0 - p_2.0;
+    let dy = p_1.1 - p_2.1;
+    let dz = p_1.2 - p_2.2;
+    dx * dx + dy * dy + dz * dz
+}
+
+/// Calculate cross product of two 3D vectors
+#[inline]
+pub fn cross3d<T>(v_1: (T, T, T), v_2: (T, T, T)) -> (T, T, T)
+where
+    T: Copy + Sub<Output = T> + Mul<Output = T> + Add<Output = T>,
+{
+    (
+        v_1.1 * v_2.2 - v_1.2 * v_2.1,
+        v_1.2 * v_2.0 - v_1.0 * v_2.2,
+        v_1.0 * v_2.1 - v_1.1 * v_2.0,
+    )
+}
+
+/// Calculate spread (square of sine) between two 3D vectors
+#[inline]
+pub fn spread3d<T>(v_1: (T, T, T), v_2: (T, T, T)) -> T
+where
+    T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Div<Output = T> + One + Zero,
+{
+    let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1 + v_1.2 * v_2.2;
+    let q_1 = quadrance3d(v_1, (T::zero(), T::zero(), T::zero()));
+    let q_2 = quadrance3d(v_2, (T::zero(), T::zero(), T::zero()));
+    T::one() - dot_product * dot_product / (q_1 * q_2)
+}
+
+/// Calculate twist (signed area) of triangle formed by three points
+/// Twist is twice the signed area of the triangle
+#[inline]
+pub fn twist<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> T
+where
+    T: Copy + Sub<Output = T> + Mul<Output = T>,
+{
+    cross_from_three_points(p_1, p_2, p_3)
+}
+
+/// Calculate turn (oriented angle measure) between three points
+/// Returns the spread and its sign based on orientation
+#[inline]
+pub fn turn<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, bool)
+where
+    T: Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + One
+        + Zero
+        + PartialOrd,
+{
+    let v1 = (p_2.0 - p_1.0, p_2.1 - p_1.1);
+    let v2 = (p_3.0 - p_2.0, p_3.1 - p_2.1);
+    let s = spread(v1, v2);
+    let sign = cross(v1, v2) >= T::zero();
+    (s, sign)
+}
+
+/// Calculate dilatation between two vectors
+/// Dilatation is the ratio of lengths squared
+#[inline]
+pub fn dilatation<T>(v_1: (T, T), v_2: (T, T)) -> T
+where
+    T: Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + Zero
+        + PartialEq,
+{
+    let q_1 = quadrance(v_1, (T::zero(), T::zero()));
+    let q_2 = quadrance(v_2, (T::zero(), T::zero()));
+    if q_1 == T::zero() {
+        T::zero()
+    } else {
+        q_2 / q_1
+    }
+}
+
+/// Calculate the sine law equivalent in rational trigonometry
+/// For a triangle with sides q1, q2, q3 and corresponding spreads s1, s2, s3
+/// This verifies: q1 * s1 = q2 * s2 = q3 * s3
+#[inline]
+pub fn sine_law_product<T>(q: T, s: T) -> T
+where
+    T: Copy + Mul<Output = T>,
+{
+    q * s
+}
+
+/// Calculate the cosine law equivalent in rational trigonometry
+/// For a triangle with quadrances q1, q2, q3 and spread s1 opposite q1
+/// s1 = 1 - (q2 + q3 - q1)² / (4 * q2 * q3)
+#[inline]
+pub fn cosine_law<T>(q_1: T, q_2: T, q_3: T) -> T
+where
+    T: Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + One
+        + Zero
+        + PartialEq,
+{
+    let four = T::one() + T::one() + T::one() + T::one();
+    if q_2 == T::zero() || q_3 == T::zero() {
+        T::zero()
+    } else {
+        T::one() - (q_2 + q_3 - q_1) * (q_2 + q_3 - q_1) / (four * q_2 * q_3)
+    }
 }
 
 #[cfg(test)]
@@ -299,4 +401,97 @@ mod tests {
     // #[test]
     // fn test_archimedes4() {
     //     let q_1 = Fraction::<i64>::new(1, 2);
+
+    #[test]
+    fn test_quadrance3d() {
+        let p1 = (0, 0, 0);
+        let p2 = (1, 2, 2);
+        assert_eq!(quadrance3d(p1, p2), 9);
+    }
+
+    #[test]
+    fn test_cross3d() {
+        let v1 = (1, 0, 0);
+        let v2 = (0, 1, 0);
+        assert_eq!(cross3d(v1, v2), (0, 0, 1));
+    }
+
+    #[test]
+    fn test_spread3d() {
+        let v1 = (1.0, 0.0, 0.0);
+        let v2 = (0.0, 1.0, 0.0);
+        assert_eq!(spread3d(v1, v2), 1.0);
+    }
+
+    #[test]
+    fn test_quadrance3d_rational() {
+        let p1 = (
+            Ratio::<i32>::new(0, 1),
+            Ratio::<i32>::new(0, 1),
+            Ratio::<i32>::new(0, 1),
+        );
+        let p2 = (
+            Ratio::<i32>::new(1, 1),
+            Ratio::<i32>::new(2, 1),
+            Ratio::<i32>::new(2, 1),
+        );
+        assert_eq!(quadrance3d(p1, p2), Ratio::<i32>::new(9, 1));
+    }
+
+    #[test]
+    fn test_twist() {
+        let p1 = (0, 0);
+        let p2 = (1, 0);
+        let p3 = (0, 1);
+        assert_eq!(twist(p1, p2, p3), 1);
+    }
+
+    #[test]
+    fn test_turn() {
+        let p1 = (0.0, 0.0);
+        let p2 = (1.0, 0.0);
+        let p3 = (1.0, 1.0);
+        let (s, sign) = turn(p1, p2, p3);
+        // v1 = (1,0), v2 = (0,1) - perpendicular, spread = 1.0
+        assert_eq!(s, 1.0);
+        assert!(sign);
+    }
+
+    #[test]
+    fn test_dilatation() {
+        let v1 = (1.0, 0.0);
+        let v2 = (2.0, 0.0);
+        assert_eq!(dilatation(v1, v2), 4.0);
+    }
+
+    #[test]
+    fn test_sine_law_product() {
+        let q = 4.0;
+        let s = 0.5;
+        assert_eq!(sine_law_product(q, s), 2.0);
+    }
+
+    #[test]
+    fn test_cosine_law() {
+        let q1 = 2.0;
+        let q2 = 1.0;
+        let q3 = 1.0;
+        // For a right triangle with sides sqrt(2), 1, 1
+        // The angle opposite q1 is 90°, so spread = 1.0
+        assert_eq!(cosine_law(q1, q2, q3), 1.0);
+    }
+
+    #[test]
+    fn test_twist_negative() {
+        let p1 = (0, 0);
+        let p2 = (1, 0);
+        let p3 = (0, -1);
+        assert_eq!(twist(p1, p2, p3), -1);
+    }
+}
+
+#[cfg(test)]
+mod quickcheck_tests {
+    // Note: Quickcheck tests are disabled for now due to integer overflow issues
+    // These tests work better with bounded types or f64
 }
