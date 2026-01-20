@@ -279,7 +279,7 @@ fn test_turn_and_orientation() {
     let (s, sign) = turn(p1, p2, p3);
 
     // Spread should be positive and in valid range
-    assert!(s >= 0.0 && s <= 1.0);
+    assert!((0.0..=1.0).contains(&s));
     // Sign should be true for counter-clockwise turn
     assert!(sign);
 

@@ -89,7 +89,7 @@ fn analyze_triangle(p1: (f64, f64), p2: (f64, f64), p3: (f64, f64)) {
 
     // Verify Pythagorean theorem
     let sides = [q1, q2, q3];
-    let max_q = sides.iter().cloned().fold(0.0 / 0.0, f64::max);
+    let max_q = sides.iter().cloned().fold(f64::NAN, f64::max);
     let sum_other: f64 = sides.iter().filter(|&&x| x < max_q).sum();
 
     println!("\nPythagorean theorem check:");
