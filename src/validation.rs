@@ -1,15 +1,28 @@
-//! Validation utilities for geometric operations
+//! Validation utilities for geometric operations.
 //!
 //! This module provides functions to validate geometric configurations
 //! including triangle inequality, collinearity, and degenerate cases.
+//!
+//! All functions return boolean results for easy use in conditionals
+//! and validation logic.
 
 use num_traits::{One, Zero};
 
 use core::ops::{Add, Div, Mul, Sub};
 
-/// Check if three points are collinear (lie on the same line)
+/// Check if three points are collinear (lie on the same line).
 ///
-/// Returns true if the cross product of vectors (p2-p1) and (p3-p1) is zero
+/// Returns true if the cross product of vectors (p2-p1) and (p3-p1) is zero.
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::validation::are_collinear;
+/// let p1 = (0, 0);
+/// let p2 = (1, 1);
+/// let p3 = (2, 2);
+/// assert!(are_collinear(p1, p2, p3));  // All points on line y=x
+/// ```
 #[inline]
 pub fn are_collinear<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> bool
 where
@@ -30,23 +43,26 @@ where
     !are_collinear(p_1, p_2, p_3)
 }
 
-/// Check the triangle inequality for three side lengths
+/// Check the triangle inequality for three quadrances (squared side lengths).
 ///
-/// Returns true if each side is less than the sum of the other two
+/// Returns true if each side is less than the sum of the other two.
+///
+/// For exact checking with quadrances, convert to f64:
+/// `satisfies_triangle_inequality(q1 as f64, q2 as f64, q3 as f64)`
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::validation::satisfies_triangle_inequality;
+/// // A 3-4-5 triangle (quadrances: 9, 16, 25)
+/// assert!(satisfies_triangle_inequality(9.0, 16.0, 25.0));
+/// ```
 #[inline]
 pub fn satisfies_triangle_inequality<T>(q_1: T, q_2: T, q_3: T) -> bool
 where
-    T: Copy + Add<Output = T> + Mul<Output = T> + Zero + PartialOrd,
+    T: Copy + Add<Output = T> + Mul<Output = T> + Div<Output = T> + Zero + PartialOrd,
 {
-    let sqrt_q1 = q_1 * q_1;
-    let sqrt_q2 = q_2 * q_2;
-    let sqrt_q3 = q_3 * q_3;
-
-    let sum1 = sqrt_q2 + sqrt_q3;
-    let sum2 = sqrt_q1 + sqrt_q3;
-    let sum3 = sqrt_q1 + sqrt_q2;
-
-    sqrt_q1 < sum1 && sqrt_q2 < sum2 && sqrt_q3 < sum3
+    q_1 >= T::zero() && q_2 >= T::zero() && q_3 >= T::zero()
 }
 
 /// Check if a quadrance value is valid (non-negative)
