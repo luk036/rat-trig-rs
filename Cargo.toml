@@ -21,7 +21,7 @@ fractions-rs = "0.1.2"
 num-rational = "0.4.2"
 quickcheck = "1.0.3"
 quickcheck_macros = "1.0.0"
-criterion = "0.5"
+criterion = "0.8"
 proptest = "1.5"
 
 [dependencies]
