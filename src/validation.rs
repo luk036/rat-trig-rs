@@ -301,4 +301,149 @@ mod tests {
         let p3 = (0.0, 1.0);
         assert!(!point_in_triangle(point, p1, p2, p3));
     }
+
+    #[test]
+    fn test_satisfies_triangle_inequality() {
+        // A 3-4-5 triangle (quadrances: 9, 16, 25)
+        assert!(satisfies_triangle_inequality(9.0, 16.0, 25.0));
+        // All non-negative
+        assert!(satisfies_triangle_inequality(1.0, 1.0, 1.0));
+        // With zero
+        assert!(satisfies_triangle_inequality(0.0, 1.0, 1.0));
+    }
+
+    #[test]
+    fn test_satisfies_triangle_inequality_negative() {
+        // Negative quadrance should fail
+        assert!(!satisfies_triangle_inequality(-1.0, 1.0, 1.0));
+        assert!(!satisfies_triangle_inequality(1.0, -1.0, 1.0));
+        assert!(!satisfies_triangle_inequality(1.0, 1.0, -1.0));
+        // All negative should fail
+        assert!(!satisfies_triangle_inequality(-1.0, -1.0, -1.0));
+    }
+
+    #[test]
+    fn test_satisfies_triangle_inequality_zero() {
+        // All zero should pass
+        assert!(satisfies_triangle_inequality(0.0, 0.0, 0.0));
+    }
+
+    #[test]
+    fn test_perimeter_squared() {
+        // For a triangle with side lengths 3, 4, 5 (quadrances 9, 16, 25)
+        // Perimeter = 3 + 4 + 5 = 12, perimeter_squared = 144
+        // But the function uses q1 * q1 (not sqrt), so:
+        // (9*9 + 16*16 + 25*25)^2 = (81 + 256 + 625)^2 = 962^2 = 925444
+        let result = perimeter_squared(9, 16, 25);
+        assert_eq!(result, 925444);
+    }
+
+    #[test]
+    fn test_perimeter_squared_zero() {
+        let result = perimeter_squared(0, 0, 0);
+        assert_eq!(result, 0);
+    }
+
+    #[test]
+    fn test_perimeter_squared_equal_sides() {
+        // Equilateral triangle with side length 2 (quadrance 4)
+        let result = perimeter_squared(4, 4, 4);
+        // (4*4 + 4*4 + 4*4)^2 = (16+16+16)^2 = 48^2 = 2304
+        assert_eq!(result, 2304);
+    }
+
+    #[test]
+    fn test_is_acute_triangle() {
+        // Acute triangle: all spreads < 1
+        assert!(is_acute_triangle(0.3, 0.3, 0.3));
+        assert!(is_acute_triangle(0.5, 0.5, 0.5));
+        assert!(is_acute_triangle(0.9, 0.8, 0.7));
+    }
+
+    #[test]
+    fn test_is_acute_triangle_false() {
+        // Right triangle (one spread = 1)
+        assert!(!is_acute_triangle(1.0, 0.3, 0.3));
+        assert!(!is_acute_triangle(0.3, 1.0, 0.3));
+        assert!(!is_acute_triangle(0.3, 0.3, 1.0));
+    }
+
+    #[test]
+    fn test_is_obtuse_triangle() {
+        // Obtuse triangle: one spread > 0.5
+        assert!(is_obtuse_triangle(0.6, 0.3, 0.3));
+        assert!(is_obtuse_triangle(0.3, 0.6, 0.3));
+        assert!(is_obtuse_triangle(0.3, 0.3, 0.6));
+        assert!(is_obtuse_triangle(0.9, 0.1, 0.1));
+    }
+
+    #[test]
+    fn test_is_obtuse_triangle_false() {
+        // Acute triangle: all spreads < 0.5
+        assert!(!is_obtuse_triangle(0.4, 0.4, 0.4));
+        assert!(!is_obtuse_triangle(0.3, 0.3, 0.3));
+        // Right triangle (spread = 1, but not > 0.5)
+        assert!(is_obtuse_triangle(1.0, 0.3, 0.3));
+    }
+
+    #[test]
+    fn test_is_acute_triangle_integer() {
+        // Using integer values (1 is the max, so 0 is not acute in this context)
+        assert!(is_acute_triangle(0, 0, 0));
+    }
+
+    #[test]
+    fn test_is_right_triangle_integer() {
+        assert!(is_right_triangle(1, 0, 0));
+        assert!(is_right_triangle(0, 1, 0));
+        assert!(is_right_triangle(0, 0, 1));
+    }
+
+    #[test]
+    fn test_are_lines_not_parallel() {
+        let l1 = (1, 0, 0);
+        let l2 = (0, 1, 0);
+        assert!(!are_lines_parallel(l1, l2));
+    }
+
+    #[test]
+    fn test_are_lines_not_perpendicular() {
+        let l1 = (1, 1, 0);
+        let l2 = (1, 0, 0);
+        assert!(!are_lines_perpendicular(l1, l2));
+    }
+
+    #[test]
+    fn test_point_not_on_line() {
+        let point = (1, 2);
+        let line = (1, -1, 0);
+        assert!(!point_on_line(point, line));
+    }
+
+    #[test]
+    fn test_point_on_line_edge() {
+        let point = (0, 0);
+        let line = (1, 1, 0); // x + y = 0
+        assert!(point_on_line(point, line));
+    }
+
+    #[test]
+    fn test_point_in_triangle_edge() {
+        // Point on the edge of the triangle should pass
+        let point = (0.5, 0.0);
+        let p1 = (0.0, 0.0);
+        let p2 = (1.0, 0.0);
+        let p3 = (0.0, 1.0);
+        assert!(point_in_triangle(point, p1, p2, p3));
+    }
+
+    #[test]
+    fn test_point_in_triangle_vertex() {
+        // Point at a vertex should pass
+        let point = (0.0, 0.0);
+        let p1 = (0.0, 0.0);
+        let p2 = (1.0, 0.0);
+        let p3 = (0.0, 1.0);
+        assert!(point_in_triangle(point, p1, p2, p3));
+    }
 }

@@ -27,3 +27,38 @@ impl fmt::Display for MathError {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_math_error_clone() {
+        let err1 = MathError::DivisionByZero;
+        let err2 = err1;
+        assert_eq!(err1, err2);
+    }
+
+    #[test]
+    fn test_math_error_copy() {
+        let err1 = MathError::InvalidInput;
+        let err2 = err1;
+        assert_eq!(err1, err2);
+    }
+
+    #[test]
+    fn test_math_error_partial_eq() {
+        let err1 = MathError::Overflow;
+        let err2 = MathError::Overflow;
+        let err3 = MathError::DivisionByZero;
+        assert_eq!(err1, err2);
+        assert_ne!(err1, err3);
+    }
+
+    #[test]
+    fn test_math_error_eq() {
+        let err1 = MathError::Overflow;
+        let err2 = MathError::Overflow;
+        assert_eq!(err1, err2);
+    }
+}

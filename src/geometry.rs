@@ -371,4 +371,327 @@ mod tests {
         assert_eq!(q2, 1);
         assert_eq!(q3, 1);
     }
+
+    #[test]
+    fn test_point2d_new() {
+        let p = Point2D::new(3, 5);
+        assert_eq!(p.x, 3);
+        assert_eq!(p.y, 5);
+    }
+
+    #[test]
+    fn test_point2d_clone() {
+        let p1 = Point2D::new(1, 2);
+        let p2 = p1;
+        assert_eq!(p1, p2);
+    }
+
+    #[test]
+    fn test_point2d_copy() {
+        let p1 = Point2D::new(1, 2);
+        let p2 = p1;
+        assert_eq!(p1, p2);
+    }
+
+    #[test]
+    fn test_point2d_partial_eq() {
+        let p1 = Point2D::new(1, 2);
+        let p2 = Point2D::new(1, 2);
+        let p3 = Point2D::new(2, 3);
+        assert_eq!(p1, p2);
+        assert_ne!(p1, p3);
+    }
+
+    #[test]
+    fn test_point3d_from_tuple() {
+        let p: Point3D<i32> = (1, 2, 3).into();
+        assert_eq!(p.x, 1);
+        assert_eq!(p.y, 2);
+        assert_eq!(p.z, 3);
+    }
+
+    #[test]
+    fn test_point3d_new() {
+        let p = Point3D::new(3, 5, 7);
+        assert_eq!(p.x, 3);
+        assert_eq!(p.y, 5);
+        assert_eq!(p.z, 7);
+    }
+
+    #[test]
+    fn test_point3d_clone() {
+        let p1 = Point3D::new(1, 2, 3);
+        let p2 = p1;
+        assert_eq!(p1, p2);
+    }
+
+    #[test]
+    fn test_point3d_copy() {
+        let p1 = Point3D::new(1, 2, 3);
+        let p2 = p1;
+        assert_eq!(p1, p2);
+    }
+
+    #[test]
+    fn test_point3d_partial_eq() {
+        let p1 = Point3D::new(1, 2, 3);
+        let p2 = Point3D::new(1, 2, 3);
+        let p3 = Point3D::new(2, 3, 4);
+        assert_eq!(p1, p2);
+        assert_ne!(p1, p3);
+    }
+
+    #[test]
+    fn test_vector2d_from_tuple() {
+        let v: Vector2D<i32> = (3, 4).into();
+        assert_eq!(v.x, 3);
+        assert_eq!(v.y, 4);
+    }
+
+    #[test]
+    fn test_vector2d_new() {
+        let v = Vector2D::new(5, 7);
+        assert_eq!(v.x, 5);
+        assert_eq!(v.y, 7);
+    }
+
+    #[test]
+    fn test_vector2d_from_point() {
+        let p = Point2D::new(3, 4);
+        let v: Vector2D<i32> = p.into();
+        assert_eq!(v.x, 3);
+        assert_eq!(v.y, 4);
+    }
+
+    #[test]
+    fn test_vector2d_clone() {
+        let v1 = Vector2D::new(1, 2);
+        let v2 = v1;
+        assert_eq!(v1, v2);
+    }
+
+    #[test]
+    fn test_vector2d_copy() {
+        let v1 = Vector2D::new(1, 2);
+        let v2 = v1;
+        assert_eq!(v1, v2);
+    }
+
+    #[test]
+    fn test_vector2d_partial_eq() {
+        let v1 = Vector2D::new(1, 2);
+        let v2 = Vector2D::new(1, 2);
+        let v3 = Vector2D::new(2, 3);
+        assert_eq!(v1, v2);
+        assert_ne!(v1, v3);
+    }
+
+    #[test]
+    fn test_vector3d_from_tuple() {
+        let v: Vector3D<i32> = (1, 2, 3).into();
+        assert_eq!(v.x, 1);
+        assert_eq!(v.y, 2);
+        assert_eq!(v.z, 3);
+    }
+
+    #[test]
+    fn test_vector3d_new() {
+        let v = Vector3D::new(4, 5, 6);
+        assert_eq!(v.x, 4);
+        assert_eq!(v.y, 5);
+        assert_eq!(v.z, 6);
+    }
+
+    #[test]
+    fn test_vector3d_from_point() {
+        let p = Point3D::new(3, 4, 5);
+        let v: Vector3D<i32> = p.into();
+        assert_eq!(v.x, 3);
+        assert_eq!(v.y, 4);
+        assert_eq!(v.z, 5);
+    }
+
+    #[test]
+    fn test_vector3d_add() {
+        let v1 = Vector3D::new(1, 2, 3);
+        let v2 = Vector3D::new(4, 5, 6);
+        let result = v1 + v2;
+        assert_eq!(result.x, 5);
+        assert_eq!(result.y, 7);
+        assert_eq!(result.z, 9);
+    }
+
+    #[test]
+    fn test_vector3d_sub() {
+        let v1 = Vector3D::new(4, 5, 6);
+        let v2 = Vector3D::new(1, 2, 3);
+        let result = v1 - v2;
+        assert_eq!(result.x, 3);
+        assert_eq!(result.y, 3);
+        assert_eq!(result.z, 3);
+    }
+
+    #[test]
+    fn test_vector3d_clone() {
+        let v1 = Vector3D::new(1, 2, 3);
+        let v2 = v1;
+        assert_eq!(v1, v2);
+    }
+
+    #[test]
+    fn test_vector3d_copy() {
+        let v1 = Vector3D::new(1, 2, 3);
+        let v2 = v1;
+        assert_eq!(v1, v2);
+    }
+
+    #[test]
+    fn test_vector3d_partial_eq() {
+        let v1 = Vector3D::new(1, 2, 3);
+        let v2 = Vector3D::new(1, 2, 3);
+        let v3 = Vector3D::new(2, 3, 4);
+        assert_eq!(v1, v2);
+        assert_ne!(v1, v3);
+    }
+
+    #[test]
+    fn test_line2d_from_tuple() {
+        let l: Line2D<i32> = (1, 2, 3).into();
+        assert_eq!(l.a, 1);
+        assert_eq!(l.b, 2);
+        assert_eq!(l.c, 3);
+    }
+
+    #[test]
+    fn test_line2d_new() {
+        let l = Line2D::new(4, 5, 6);
+        assert_eq!(l.a, 4);
+        assert_eq!(l.b, 5);
+        assert_eq!(l.c, 6);
+    }
+
+    #[test]
+    fn test_line2d_clone() {
+        let l1 = Line2D::new(1, 2, 3);
+        let l2 = l1;
+        assert_eq!(l1, l2);
+    }
+
+    #[test]
+    fn test_line2d_copy() {
+        let l1 = Line2D::new(1, 2, 3);
+        let l2 = l1;
+        assert_eq!(l1, l2);
+    }
+
+    #[test]
+    fn test_line2d_partial_eq() {
+        let l1 = Line2D::new(1, 2, 3);
+        let l2 = Line2D::new(1, 2, 3);
+        let l3 = Line2D::new(2, 3, 4);
+        assert_eq!(l1, l2);
+        assert_ne!(l1, l3);
+    }
+
+    #[test]
+    fn test_triangle2d_clone() {
+        let p1 = Point2D::new(0, 0);
+        let p2 = Point2D::new(1, 0);
+        let p3 = Point2D::new(0, 1);
+        let t1 = Triangle2D::new(p1, p2, p3);
+        let t2 = t1;
+        assert_eq!(t1.p1, t2.p1);
+        assert_eq!(t1.p2, t2.p2);
+        assert_eq!(t1.p3, t2.p3);
+    }
+
+    #[test]
+    fn test_triangle2d_copy() {
+        let p1 = Point2D::new(0, 0);
+        let p2 = Point2D::new(1, 0);
+        let p3 = Point2D::new(0, 1);
+        let t1 = Triangle2D::new(p1, p2, p3);
+        let t2 = t1;
+        assert_eq!(t1.p1, t2.p1);
+        assert_eq!(t1.p2, t2.p2);
+        assert_eq!(t1.p3, t2.p3);
+    }
+
+    #[test]
+    fn test_triangle3d_new() {
+        let p1 = Point3D::new(0, 0, 0);
+        let p2 = Point3D::new(1, 0, 0);
+        let p3 = Point3D::new(0, 1, 0);
+        let triangle = Triangle3D::new(p1, p2, p3);
+        assert_eq!(triangle.p1, p1);
+        assert_eq!(triangle.p2, p2);
+        assert_eq!(triangle.p3, p3);
+    }
+
+    #[test]
+    fn test_triangle3d_clone() {
+        let p1 = Point3D::new(0, 0, 0);
+        let p2 = Point3D::new(1, 0, 0);
+        let p3 = Point3D::new(0, 1, 0);
+        let t1 = Triangle3D::new(p1, p2, p3);
+        let t2 = t1;
+        assert_eq!(t1.p1, t2.p1);
+        assert_eq!(t1.p2, t2.p2);
+        assert_eq!(t1.p3, t2.p3);
+    }
+
+    #[test]
+    fn test_triangle3d_copy() {
+        let p1 = Point3D::new(0, 0, 0);
+        let p2 = Point3D::new(1, 0, 0);
+        let p3 = Point3D::new(0, 1, 0);
+        let t1 = Triangle3D::new(p1, p2, p3);
+        let t2 = t1;
+        assert_eq!(t1.p1, t2.p1);
+        assert_eq!(t1.p2, t2.p2);
+        assert_eq!(t1.p3, t2.p3);
+    }
+
+    #[test]
+    fn test_triangle3d_quadrances_3d() {
+        let p1 = Point3D::new(0, 0, 0);
+        let p2 = Point3D::new(1, 0, 1);
+        let p3 = Point3D::new(0, 1, 1);
+        let triangle = Triangle3D::new(p1, p2, p3);
+        let (q1, q2, q3) = triangle.quadrances();
+        assert_eq!(q1, 2);
+        assert_eq!(q2, 2);
+        assert_eq!(q3, 2);
+    }
+
+    #[test]
+    fn test_triangle2d_quadrances_negative_coords() {
+        let p1 = Point2D::new(-1, -1);
+        let p2 = Point2D::new(0, 0);
+        let p3 = Point2D::new(1, 1);
+        let triangle = Triangle2D::new(p1, p2, p3);
+        let (q1, q2, q3) = triangle.quadrances();
+        assert_eq!(q1, 2);
+        assert_eq!(q2, 8);
+        assert_eq!(q3, 2);
+    }
+
+    #[test]
+    fn test_triangle2d_area_negative_coords() {
+        let p1 = Point2D::new(-1, -1);
+        let p2 = Point2D::new(0, 0);
+        let p3 = Point2D::new(1, 0);
+        let triangle = Triangle2D::new(p1, p2, p3);
+        let area = triangle.area();
+        assert_eq!(area, 4);
+    }
+
+    #[test]
+    fn test_triangle2d_twist_negative_coords() {
+        let p1 = Point2D::new(-1, -1);
+        let p2 = Point2D::new(0, 0);
+        let p3 = Point2D::new(1, 0);
+        let triangle = Triangle2D::new(p1, p2, p3);
+        assert_eq!(triangle.twist(), -1);
+    }
 }
