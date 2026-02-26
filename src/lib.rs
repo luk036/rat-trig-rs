@@ -18,6 +18,7 @@
 //! - Generic over numeric types - supports i32, i64, f64, and rational numbers
 //! - SIMD optimizations for bulk calculations (x86_64 + avx2)
 //! - Optional serde serialization support
+//! - Optional logging support (via `std` feature)
 //!
 //! # Quick Start
 //!
@@ -36,9 +37,12 @@
 //! - [`validation`] - Validation utilities
 //! - [`const_trigonom`] - Const-evaluable functions for concrete types
 //! - [`error`] - Error types for operations that may fail
+//! - [`logging`] - Logging utilities (requires `std` feature)
 
 pub mod const_trigonom;
 pub mod error;
 pub mod geometry;
+#[cfg(feature = "std")]
+pub mod logging;
 pub mod trigonom;
 pub mod validation;
