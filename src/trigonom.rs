@@ -81,6 +81,32 @@ where
     T::one() - dot_product * dot_product / (q_1 * q_2)
 }
 
+/// Calculate spread (square of sine) between two vectors with error checking
+///
+/// Returns `MathError::DivisionByZero` if either vector has zero magnitude.
+#[inline]
+pub fn safe_spread<T>(v_1: (T, T), v_2: (T, T)) -> Result<T, crate::error::MathError>
+where
+    T: Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + One
+        + Zero
+        + PartialEq,
+{
+    let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
+    let q_1 = quadrance(v_1, (T::zero(), T::zero()));
+    let q_2 = quadrance(v_2, (T::zero(), T::zero()));
+
+    if q_1 == T::zero() || q_2 == T::zero() {
+        return Err(crate::error::MathError::DivisionByZero);
+    }
+
+    Ok(T::one() - dot_product * dot_product / (q_1 * q_2))
+}
+
 #[inline]
 pub fn cross<T>(v_1: (T, T), v_2: (T, T)) -> T
 where
@@ -98,6 +124,30 @@ where
     temp * temp / quadrance((l.0, l.1), (T::zero(), T::zero()))
 }
 
+/// Calculate quadrance from line with error checking
+///
+/// Returns `MathError::DivisionByZero` if the line has zero magnitude.
+#[inline]
+pub fn safe_quadrance_from_line<T>(p: (T, T), l: (T, T, T)) -> Result<T, crate::error::MathError>
+where
+    T: Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + Zero
+        + PartialEq,
+{
+    let temp = l.0 * p.0 + l.1 * p.1 + l.2;
+    let q = quadrance((l.0, l.1), (T::zero(), T::zero()));
+
+    if q == T::zero() {
+        return Err(crate::error::MathError::DivisionByZero);
+    }
+
+    Ok(temp * temp / q)
+}
+
 #[inline]
 pub fn spread_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
 where
@@ -107,6 +157,34 @@ where
     temp * temp
         / (quadrance((l_1.0, l_1.1), (T::zero(), T::zero()))
             * quadrance((l_2.0, l_2.1), (T::zero(), T::zero())))
+}
+
+/// Calculate spread from line with error checking
+///
+/// Returns `MathError::DivisionByZero` if either line has zero magnitude.
+#[inline]
+pub fn safe_spread_from_line<T>(
+    l_1: (T, T, T),
+    l_2: (T, T, T),
+) -> Result<T, crate::error::MathError>
+where
+    T: Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + Zero
+        + PartialEq,
+{
+    let temp = cross((l_1.0, l_1.1), (l_2.0, l_2.1));
+    let q_1 = quadrance((l_1.0, l_1.1), (T::zero(), T::zero()));
+    let q_2 = quadrance((l_2.0, l_2.1), (T::zero(), T::zero()));
+
+    if q_1 == T::zero() || q_2 == T::zero() {
+        return Err(crate::error::MathError::DivisionByZero);
+    }
+
+    Ok(temp * temp / (q_1 * q_2))
 }
 
 #[inline]
@@ -245,6 +323,30 @@ where
     }
 }
 
+/// Calculate dilatation between two vectors with error checking
+///
+/// Returns `MathError::DivisionByZero` if the first vector has zero magnitude.
+#[inline]
+pub fn safe_dilatation<T>(v_1: (T, T), v_2: (T, T)) -> Result<T, crate::error::MathError>
+where
+    T: Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + Zero
+        + PartialEq,
+{
+    let q_1 = quadrance(v_1, (T::zero(), T::zero()));
+    let q_2 = quadrance(v_2, (T::zero(), T::zero()));
+
+    if q_1 == T::zero() {
+        return Err(crate::error::MathError::DivisionByZero);
+    }
+
+    Ok(q_2 / q_1)
+}
+
 /// Calculate the sine law equivalent in rational trigonometry
 /// For a triangle with sides q1, q2, q3 and corresponding spreads s1, s2, s3
 /// This verifies: q1 * s1 = q2 * s2 = q3 * s3
@@ -277,6 +379,30 @@ where
     } else {
         T::one() - (q_2 + q_3 - q_1) * (q_2 + q_3 - q_1) / (four * q_2 * q_3)
     }
+}
+
+/// Calculate the cosine law equivalent in rational trigonometry with error checking
+///
+/// Returns `MathError::DivisionByZero` if either q2 or q3 is zero.
+#[inline]
+pub fn safe_cosine_law<T>(q_1: T, q_2: T, q_3: T) -> Result<T, crate::error::MathError>
+where
+    T: Copy
+        + Add<Output = T>
+        + Sub<Output = T>
+        + Mul<Output = T>
+        + Div<Output = T>
+        + One
+        + Zero
+        + PartialEq,
+{
+    let four = T::one() + T::one() + T::one() + T::one();
+
+    if q_2 == T::zero() || q_3 == T::zero() {
+        return Err(crate::error::MathError::DivisionByZero);
+    }
+
+    Ok(T::one() - (q_2 + q_3 - q_1) * (q_2 + q_3 - q_1) / (four * q_2 * q_3))
 }
 
 #[cfg(test)]
@@ -487,6 +613,98 @@ mod tests {
         let p2 = (1, 0);
         let p3 = (0, -1);
         assert_eq!(twist(p1, p2, p3), -1);
+    }
+
+    #[test]
+    fn test_safe_spread_success() {
+        let v1: (f64, f64) = (1.0, 1.0);
+        let v2: (f64, f64) = (1.0, 0.0);
+        let result = safe_spread(v1, v2);
+        assert!(result.is_ok());
+        assert!((result.unwrap() - 0.5_f64).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_safe_spread_zero_vector() {
+        let v1: (f64, f64) = (0.0, 0.0);
+        let v2: (f64, f64) = (1.0, 0.0);
+        let result = safe_spread(v1, v2);
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err(), crate::error::MathError::DivisionByZero);
+    }
+
+    #[test]
+    fn test_safe_quadrance_from_line_success() {
+        let p: (f64, f64) = (1.0, 1.0);
+        let l: (f64, f64, f64) = (1.0, 1.0, 1.0);
+        let result = safe_quadrance_from_line(p, l);
+        assert!(result.is_ok());
+        assert!((result.unwrap() - 4.5_f64).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_safe_quadrance_from_line_zero_line() {
+        let p: (f64, f64) = (1.0, 1.0);
+        let l: (f64, f64, f64) = (0.0, 0.0, 1.0);
+        let result = safe_quadrance_from_line(p, l);
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err(), crate::error::MathError::DivisionByZero);
+    }
+
+    #[test]
+    fn test_safe_spread_from_line_success() {
+        let l1: (f64, f64, f64) = (1.0, 1.0, 1.0);
+        let l2: (f64, f64, f64) = (1.0, 0.0, 0.0);
+        let result = safe_spread_from_line(l1, l2);
+        assert!(result.is_ok());
+        assert!((result.unwrap() - 0.5_f64).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_safe_spread_from_line_zero_line() {
+        let l1: (f64, f64, f64) = (0.0, 0.0, 1.0);
+        let l2: (f64, f64, f64) = (1.0, 0.0, 0.0);
+        let result = safe_spread_from_line(l1, l2);
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err(), crate::error::MathError::DivisionByZero);
+    }
+
+    #[test]
+    fn test_safe_dilatation_success() {
+        let v1: (f64, f64) = (1.0, 0.0);
+        let v2: (f64, f64) = (2.0, 0.0);
+        let result = safe_dilatation(v1, v2);
+        assert!(result.is_ok());
+        assert!((result.unwrap() - 4.0_f64).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_safe_dilatation_zero_vector() {
+        let v1: (f64, f64) = (0.0, 0.0);
+        let v2: (f64, f64) = (1.0, 0.0);
+        let result = safe_dilatation(v1, v2);
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err(), crate::error::MathError::DivisionByZero);
+    }
+
+    #[test]
+    fn test_safe_cosine_law_success() {
+        let q1: f64 = 2.0;
+        let q2: f64 = 1.0;
+        let q3: f64 = 1.0;
+        let result = safe_cosine_law(q1, q2, q3);
+        assert!(result.is_ok());
+        assert!((result.unwrap() - 1.0_f64).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_safe_cosine_law_zero_side() {
+        let q1: f64 = 1.0;
+        let q2: f64 = 0.0;
+        let q3: f64 = 1.0;
+        let result = safe_cosine_law(q1, q2, q3);
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err(), crate::error::MathError::DivisionByZero);
     }
 }
 

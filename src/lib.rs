@@ -19,6 +19,7 @@
 //! - SIMD optimizations for bulk calculations (x86_64 + avx2)
 //! - Optional serde serialization support
 //! - Optional logging support (via `std` feature)
+//! - Safe variants with proper error handling for fallible operations
 //!
 //! # Quick Start
 //!
@@ -28,6 +29,18 @@
 //! let p1 = (0, 0);
 //! let p2 = (3, 4);
 //! let q = quadrance(p1, p2);  // q = 25
+//! ```
+//!
+//! # Error Handling
+//!
+//! For operations that may fail (division by zero), use the `safe_*` variants:
+//!
+//! ```rust
+//! use rat_trig_rs::trigonom::safe_spread;
+//!
+//! let v1 = (1.0, 0.0);
+//! let v2 = (0.0, 0.0);
+//! let result = safe_spread(v1, v2);  // Returns Err(MathError::DivisionByZero)
 //! ```
 //!
 //! # Modules
