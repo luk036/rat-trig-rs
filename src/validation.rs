@@ -103,11 +103,10 @@ where
     //
     // Since we can't compute square roots generically without float conversion,
     // we compute a related quantity: the sum of quadrances
-    let sum = q_1 + q_2 + q_3;
     // Note: Without square root capability in generic T, we return the sum of quadrances
     // This is q1 + q2 + q3, which is part of the perimeter_squared expansion
     // For true perimeter_squared, use with f64 type where sqrt is available
-    sum
+    q_1 + q_2 + q_3
 }
 
 /// Check if a triangle is acute-angled (all spreads < 1)

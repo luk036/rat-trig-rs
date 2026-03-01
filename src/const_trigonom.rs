@@ -111,16 +111,8 @@ pub const fn cross_f64(v_1: (f64, f64), v_2: (f64, f64)) -> f64 {
 /// Calculate quadrance (square of distance) between two points with u32 coordinates
 #[inline]
 pub const fn quadrance_u32(p_1: (u32, u32), p_2: (u32, u32)) -> u32 {
-    let dx = if p_1.0 > p_2.0 {
-        p_1.0 - p_2.0
-    } else {
-        p_2.0 - p_1.0
-    };
-    let dy = if p_1.1 > p_2.1 {
-        p_1.1 - p_2.1
-    } else {
-        p_2.1 - p_1.1
-    };
+    let dx = p_1.0.abs_diff(p_2.0);
+    let dy = p_1.1.abs_diff(p_2.1);
     dx * dx + dy * dy
 }
 
@@ -154,26 +146,14 @@ pub const fn spread_u32(v_1: (u32, u32), v_2: (u32, u32)) -> u32 {
 pub const fn cross_u32(v_1: (u32, u32), v_2: (u32, u32)) -> u32 {
     let a = v_1.0 * v_2.1;
     let b = v_1.1 * v_2.0;
-    if a >= b {
-        a - b
-    } else {
-        b - a
-    }
+    a.abs_diff(b)
 }
 
 /// Calculate quadrance (square of distance) between two points with u64 coordinates
 #[inline]
 pub const fn quadrance_u64(p_1: (u64, u64), p_2: (u64, u64)) -> u64 {
-    let dx = if p_1.0 > p_2.0 {
-        p_1.0 - p_2.0
-    } else {
-        p_2.0 - p_1.0
-    };
-    let dy = if p_1.1 > p_2.1 {
-        p_1.1 - p_2.1
-    } else {
-        p_2.1 - p_1.1
-    };
+    let dx = p_1.0.abs_diff(p_2.0);
+    let dy = p_1.1.abs_diff(p_2.1);
     dx * dx + dy * dy
 }
 
@@ -207,11 +187,7 @@ pub const fn spread_u64(v_1: (u64, u64), v_2: (u64, u64)) -> u64 {
 pub const fn cross_u64(v_1: (u64, u64), v_2: (u64, u64)) -> u64 {
     let a = v_1.0 * v_2.1;
     let b = v_1.1 * v_2.0;
-    if a >= b {
-        a - b
-    } else {
-        b - a
-    }
+    a.abs_diff(b)
 }
 
 /// Calculate quadrance (square of distance) between two points with i128 coordinates
@@ -253,16 +229,8 @@ pub const fn cross_i128(v_1: (i128, i128), v_2: (i128, i128)) -> i128 {
 /// Calculate quadrance (square of distance) between two points with u128 coordinates
 #[inline]
 pub const fn quadrance_u128(p_1: (u128, u128), p_2: (u128, u128)) -> u128 {
-    let dx = if p_1.0 > p_2.0 {
-        p_1.0 - p_2.0
-    } else {
-        p_2.0 - p_1.0
-    };
-    let dy = if p_1.1 > p_2.1 {
-        p_1.1 - p_2.1
-    } else {
-        p_2.1 - p_1.1
-    };
+    let dx = p_1.0.abs_diff(p_2.0);
+    let dy = p_1.1.abs_diff(p_2.1);
     dx * dx + dy * dy
 }
 
@@ -296,11 +264,7 @@ pub const fn spread_u128(v_1: (u128, u128), v_2: (u128, u128)) -> u128 {
 pub const fn cross_u128(v_1: (u128, u128), v_2: (u128, u128)) -> u128 {
     let a = v_1.0 * v_2.1;
     let b = v_1.1 * v_2.0;
-    if a >= b {
-        a - b
-    } else {
-        b - a
-    }
+    a.abs_diff(b)
 }
 
 #[cfg(test)]
