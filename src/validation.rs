@@ -220,6 +220,7 @@ where
 /// Returns (sqrt(q1) + sqrt(q2) + sqrt(q3))²
 ///
 /// This is the floating-point version that can compute actual square roots.
+#[cfg(feature = "std")]
 #[inline]
 pub fn perimeter_squared_f64(q_1: f64, q_2: f64, q_3: f64) -> f64 {
     let sqrt_q1 = q_1.sqrt();
@@ -374,6 +375,7 @@ mod tests {
         assert_eq!(result, 12); // 4 + 4 + 4
     }
 
+    #[cfg(feature = "std")]
     #[test]
     fn test_perimeter_squared_f64() {
         // For a 3-4-5 triangle (quadrances: 9, 16, 25)
@@ -382,12 +384,14 @@ mod tests {
         assert!((result - 144.0).abs() < 1e-10);
     }
 
+    #[cfg(feature = "std")]
     #[test]
     fn test_perimeter_squared_f64_zero() {
         let result = perimeter_squared_f64(0.0, 0.0, 0.0);
         assert_eq!(result, 0.0);
     }
 
+    #[cfg(feature = "std")]
     #[test]
     fn test_perimeter_squared_f64_equal_sides() {
         // Equilateral triangle with side length 2 (quadrance 4)
