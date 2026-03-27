@@ -59,6 +59,25 @@ where
     four * *q_1 * *q_2 - temp * temp
 }
 
+/// Calculate the quadrance (squared distance) between two 2D points.
+///
+/// Arguments:
+///
+/// * `p_1`: First point as a tuple (x, y).
+/// * `p_2`: Second point as a tuple (x, y).
+///
+/// Returns:
+///
+/// The quadrance (sum of squared differences in x and y coordinates).
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::quadrance;
+/// let p1 = (1, 1);
+/// let p2 = (4, 5);
+/// assert_eq!(quadrance(p1, p2), 25);
+/// ```
 #[inline]
 pub fn quadrance<T>(p_1: (T, T), p_2: (T, T)) -> T
 where
@@ -69,6 +88,25 @@ where
     dx * dx + dy * dy
 }
 
+/// Calculate the spread (square of sine) between two 2D vectors.
+///
+/// Arguments:
+///
+/// * `v_1`: First vector as a tuple (x, y).
+/// * `v_2`: Second vector as a tuple (x, y).
+///
+/// Returns:
+///
+/// The spread (1 - cos²θ) where θ is the angle between the vectors.
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::spread;
+/// let v1 = (1.0, 1.0);
+/// let v2 = (1.0, 0.0);
+/// assert_eq!(spread(v1, v2), 0.5);
+/// ```
 #[inline]
 pub fn spread<T>(v_1: (T, T), v_2: (T, T)) -> T
 where
@@ -106,6 +144,25 @@ where
     Ok(T::one() - dot_product * dot_product / (q_1 * q_2))
 }
 
+/// Calculate the cross product (signed area) of two 2D vectors.
+///
+/// Arguments:
+///
+/// * `v_1`: First vector as a tuple (x, y).
+/// * `v_2`: Second vector as a tuple (x, y).
+///
+/// Returns:
+///
+/// The cross product (v1.x * v2.y - v1.y * v2.x), representing twice the signed area.
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::cross;
+/// let v1 = (1, 1);
+/// let v2 = (1, 0);
+/// assert_eq!(cross(v1, v2), -1);
+/// ```
 #[inline]
 pub fn cross<T>(v_1: (T, T), v_2: (T, T)) -> T
 where
@@ -114,6 +171,25 @@ where
     v_1.0 * v_2.1 - v_1.1 * v_2.0
 }
 
+/// Calculate the quadrance (squared distance) from a point to a line.
+///
+/// Arguments:
+///
+/// * `p`: Point as a tuple (x, y).
+/// * `l`: Line coefficients as (a, b, c) where ax + by + c = 0.
+///
+/// Returns:
+///
+/// The quadrance (squared perpendicular distance) from the point to the line.
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::quadrance_from_line;
+/// let p = (1.0, 1.0);
+/// let l = (1.0, 1.0, 1.0);
+/// assert_eq!(quadrance_from_line(p, l), 4.5);
+/// ```
 #[inline]
 pub fn quadrance_from_line<T>(p: (T, T), l: (T, T, T)) -> T
 where
@@ -147,6 +223,25 @@ where
     Ok(temp * temp / q)
 }
 
+/// Calculate the spread (angle measure) between two lines.
+///
+/// Arguments:
+///
+/// * `l_1`: First line coefficients as (a, b, c) where a*x + b*y + c = 0.
+/// * `l_2`: Second line coefficients as (a, b, c) where a*x + b*y + c = 0.
+///
+/// Returns:
+///
+/// The spread (squared sine of the angle) between the two lines.
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::spread_from_line;
+/// let l1 = (1.0, 1.0, 1.0);
+/// let l2 = (1.0, 0.0, 0.0);
+/// assert_eq!(spread_from_line(l1, l2), 0.5);
+/// ```
 #[inline]
 pub fn spread_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
 where
@@ -186,6 +281,25 @@ where
     Ok(temp * temp / (q_1 * q_2))
 }
 
+/// Calculate the cross product (determinant) of two 2D lines.
+///
+/// Arguments:
+///
+/// * `l_1`: First line coefficients as (a, b, c) where a*x + b*y + c = 0.
+/// * `l_2`: Second line coefficients as (a, b, c) where a*x + b*y + c = 0.
+///
+/// Returns:
+///
+/// The cross product of the line direction vectors (a1*b2 - a2*b1).
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::cross_from_line;
+/// let l1 = (1, 1, 1);
+/// let l2 = (1, 0, 0);
+/// assert_eq!(cross_from_line(l1, l2), -1);
+/// ```
 #[inline]
 pub fn cross_from_line<T>(l_1: (T, T, T), l_2: (T, T, T)) -> T
 where
@@ -194,6 +308,30 @@ where
     cross((l_1.0, l_1.1), (l_2.0, l_2.1))
 }
 
+/// Calculate the quadrances (squared side lengths) of a triangle defined by three points.
+///
+/// Arguments:
+///
+/// * `p_1`: First vertex of the triangle as a tuple (x, y).
+/// * `p_2`: Second vertex of the triangle as a tuple (x, y).
+/// * `p_3`: Third vertex of the triangle as a tuple (x, y).
+///
+/// Returns:
+///
+/// A tuple (q1, q2, q3) where:
+/// - q1 = quadrance between p2 and p3 (side opposite p1)
+/// - q2 = quadrance between p1 and p3 (side opposite p2)
+/// - q3 = quadrance between p1 and p2 (side opposite p3)
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::quadrance_from_three_points;
+/// let p1 = (0, 0);
+/// let p2 = (1, 0);
+/// let p3 = (0, 1);
+/// assert_eq!(quadrance_from_three_points(p1, p2, p3), (2, 1, 1));
+/// ```
 #[inline]
 pub fn quadrance_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, T, T)
 where
@@ -206,6 +344,30 @@ where
     )
 }
 
+/// Calculate the spreads (angle measures) of a triangle defined by three points.
+///
+/// Arguments:
+///
+/// * `p_1`: First vertex of the triangle as a tuple (x, y).
+/// * `p_2`: Second vertex of the triangle as a tuple (x, y).
+/// * `p_3`: Third vertex of the triangle as a tuple (x, y).
+///
+/// Returns:
+///
+/// A tuple (s1, s2, s3) where:
+/// - s1 = spread at vertex p1 (opposite side q1)
+/// - s2 = spread at vertex p2 (opposite side q2)
+/// - s3 = spread at vertex p3 (opposite side q3)
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::spread_from_three_points;
+/// let p1 = (0.0, 0.0);
+/// let p2 = (1.0, 0.0);
+/// let p3 = (0.0, 1.0);
+/// assert_eq!(spread_from_three_points(p1, p2, p3), (1.0, 0.5, 0.5));
+/// ```
 #[inline]
 pub fn spread_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, T, T)
 where
@@ -221,6 +383,27 @@ where
     (s_1, s_2, s_3)
 }
 
+/// Calculate the cross product (twice the signed area) of a triangle defined by three points.
+///
+/// Arguments:
+///
+/// * `p_1`: First vertex of the triangle as a tuple (x, y).
+/// * `p_2`: Second vertex of the triangle as a tuple (x, y).
+/// * `p_3`: Third vertex of the triangle as a tuple (x, y).
+///
+/// Returns:
+///
+/// The cross product of vectors (p2-p1) and (p3-p1), representing twice the signed area.
+///
+/// Example:
+///
+/// ```rust
+/// use rat_trig_rs::trigonom::cross_from_three_points;
+/// let p1 = (0, 0);
+/// let p2 = (1, 0);
+/// let p3 = (0, 1);
+/// assert_eq!(cross_from_three_points(p1, p2, p3), 1);
+/// ```
 #[inline]
 pub fn cross_from_three_points<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> T
 where

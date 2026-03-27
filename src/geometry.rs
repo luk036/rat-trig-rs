@@ -13,6 +13,16 @@ pub struct Point2D<T> {
     pub y: T,
 }
 
+/// Creates a new 2D point.
+///
+/// Arguments:
+///
+/// * `x`: The x-coordinate.
+/// * `y`: The y-coordinate.
+///
+/// Returns:
+///
+/// A new `Point2D` instance.
 impl<T> Point2D<T> {
     pub fn new(x: T, y: T) -> Self {
         Self { x, y }
@@ -36,6 +46,17 @@ pub struct Point3D<T> {
     pub z: T,
 }
 
+/// Creates a new 3D point.
+///
+/// Arguments:
+///
+/// * `x`: The x-coordinate.
+/// * `y`: The y-coordinate.
+/// * `z`: The z-coordinate.
+///
+/// Returns:
+///
+/// A new `Point3D` instance.
 impl<T> Point3D<T> {
     pub fn new(x: T, y: T, z: T) -> Self {
         Self { x, y, z }
@@ -59,6 +80,16 @@ pub struct Vector2D<T> {
     pub y: T,
 }
 
+/// Creates a new 2D vector.
+///
+/// Arguments:
+///
+/// * `x`: The x-component.
+/// * `y`: The y-component.
+///
+/// Returns:
+///
+/// A new `Vector2D` instance.
 impl<T> Vector2D<T> {
     pub fn new(x: T, y: T) -> Self {
         Self { x, y }
@@ -117,6 +148,17 @@ pub struct Vector3D<T> {
     pub z: T,
 }
 
+/// Creates a new 3D vector.
+///
+/// Arguments:
+///
+/// * `x`: The x-component.
+/// * `y`: The y-component.
+/// * `z`: The z-component.
+///
+/// Returns:
+///
+/// A new `Vector3D` instance.
 impl<T> Vector3D<T> {
     pub fn new(x: T, y: T, z: T) -> Self {
         Self { x, y, z }
@@ -179,6 +221,17 @@ pub struct Line2D<T> {
     pub c: T,
 }
 
+/// Creates a new 2D line.
+///
+/// Arguments:
+///
+/// * `a`: Coefficient a in ax + by + c = 0.
+/// * `b`: Coefficient b in ax + by + c = 0.
+/// * `c`: Constant term c in ax + by + c = 0.
+///
+/// Returns:
+///
+/// A new `Line2D` instance.
 impl<T> Line2D<T> {
     pub fn new(a: T, b: T, c: T) -> Self {
         Self { a, b, c }
@@ -203,6 +256,17 @@ pub struct Triangle2D<T> {
     pub p3: Point2D<T>,
 }
 
+/// Creates a new 2D triangle.
+///
+/// Arguments:
+///
+/// * `p1`: First vertex of the triangle.
+/// * `p2`: Second vertex of the triangle.
+/// * `p3`: Third vertex of the triangle.
+///
+/// Returns:
+///
+/// A new `Triangle2D` instance.
 impl<T> Triangle2D<T> {
     pub fn new(p1: Point2D<T>, p2: Point2D<T>, p3: Point2D<T>) -> Self {
         Self { p1, p2, p3 }
@@ -259,6 +323,17 @@ pub struct Triangle3D<T> {
     pub p3: Point3D<T>,
 }
 
+/// Creates a new 3D triangle.
+///
+/// Arguments:
+///
+/// * `p1`: First vertex of the triangle.
+/// * `p2`: Second vertex of the triangle.
+/// * `p3`: Third vertex of the triangle.
+///
+/// Returns:
+///
+/// A new `Triangle3D` instance.
 impl<T> Triangle3D<T> {
     pub fn new(p1: Point3D<T>, p2: Point3D<T>, p3: Point3D<T>) -> Self {
         Self { p1, p2, p3 }

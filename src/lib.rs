@@ -50,12 +50,12 @@
 //! - [`validation`] - Validation utilities
 //! - [`const_trigonom`] - Const-evaluable functions for concrete types
 //! - [`error`] - Error types for operations that may fail
-//! - [`logging`] - Logging utilities (requires `std` feature)
+
+#[cfg(feature = "std")]
+pub mod logging;
 
 pub mod const_trigonom;
 pub mod error;
 pub mod geometry;
-#[cfg(feature = "std")]
-pub mod logging;
 pub mod trigonom;
 pub mod validation;
