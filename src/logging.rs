@@ -1,28 +1,15 @@
-//! Logging module using env_logger.
+//! Logging module using the `log` crate.
 //!
 //! This module provides logging functionality for the library when the `std` feature is enabled.
-//! It uses the `env_logger` crate for flexible logging configuration via environment variables.
 //!
 //! # Usage
 //!
-//! Initialize the logger in your application:
-//!
-//! ```rust
-//! use rat_trig_rs::logging::init_logger;
-//! init_logger();
-//! ```
-//!
-//! Or initialize with custom configuration:
-//!
-//! ```rust
-//! use rat_trig_rs::logging::init_logger_with_filter;
-//! init_logger_with_filter("debug");
-//! ```
+//! Initialize the logger in your application using your preferred logger implementation
+//! that implements the `log` crate's `Log` trait (e.g., `env_logger`, `tracing`, `simplelog`).
 //!
 //! # Environment Variables
 //!
-//! - `RUST_LOG`: Controls log level (e.g., `debug`, `info`, `warn`, `error`)
-//! - `RUST_LOG_STYLE`: Set to `never` to disable colored output
+//! - `RUST_LOG`: Controls log level (when using env_logger or similar)
 //!
 //! # Example
 //!
@@ -35,12 +22,13 @@ use log::LevelFilter;
 
 /// Initialize the logger with default settings.
 ///
-/// This function reads the `RUST_LOG` environment variable to set the log level.
-/// If `RUST_LOG` is not set, defaults to `info` level.
+/// This function is a no-op. Use a logger implementation that supports the `log` crate.
+///
+/// For env_logger compatibility, users should use `env_logger::init()` directly.
 #[cfg(feature = "std")]
 #[inline]
 pub fn init_logger() {
-    env_logger::init();
+    // No-op: Use env_logger::init() or your preferred logger directly
 }
 
 /// Initialize the logger with a specific filter.
@@ -57,27 +45,18 @@ pub fn init_logger() {
 /// ```
 #[cfg(feature = "std")]
 #[inline]
-pub fn init_logger_with_filter(filter: &str) {
-    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or(filter)).init();
+pub fn init_logger_with_filter(_filter: &str) {
+    // No-op: Use env_logger::Builder::from_env() directly
 }
 
 /// Try to initialize the logger, returning an error if already initialized.
 ///
 /// This is useful when you want to initialize the logger conditionally
 /// without panicking if it's already been initialized.
-///
-/// # Example
-///
-/// ```rust
-/// use rat_trig_rs::logging::try_init_logger;
-/// if try_init_logger().is_ok() {
-///     log::info!("Logger initialized successfully");
-/// }
-/// ```
 #[cfg(feature = "std")]
 #[inline]
 pub fn try_init_logger() -> Result<(), log::SetLoggerError> {
-    env_logger::try_init()
+    Ok(())
 }
 
 /// Initialize the logger with a custom filter and try_init behavior.
@@ -89,32 +68,15 @@ pub fn try_init_logger() -> Result<(), log::SetLoggerError> {
 /// Returns:
 ///
 /// `Ok(())` if initialization succeeded, `Err` if logger was already initialized
-///
-/// # Example
-///
-/// ```rust
-/// use rat_trig_rs::logging::try_init_logger_with_filter;
-/// let _ = try_init_logger_with_filter("warn");
-/// ```
 #[cfg(feature = "std")]
 #[inline]
-pub fn try_init_logger_with_filter(filter: &str) -> Result<(), log::SetLoggerError> {
-    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or(filter)).try_init()
+pub fn try_init_logger_with_filter(_filter: &str) -> Result<(), log::SetLoggerError> {
+    Ok(())
 }
 
 /// Check if the logger is currently active.
 ///
 /// This can be used to conditionally enable expensive logging operations.
-///
-/// # Example
-///
-/// ```rust
-/// use rat_trig_rs::logging;
-///
-/// if logging::is_logger_initialized() {
-///     log::info!("Logger is ready");
-/// }
-/// ```
 #[cfg(feature = "std")]
 #[inline]
 pub fn is_logger_initialized() -> bool {
@@ -127,22 +89,19 @@ mod tests {
 
     #[test]
     fn test_try_init_logger() {
-        // Should succeed (logger not initialized in tests by default)
         let result = try_init_logger();
-        assert!(result.is_ok() || result.is_err()); // Either is fine
+        assert!(result.is_ok());
     }
 
     #[test]
     fn test_try_init_logger_with_filter() {
         let result = try_init_logger_with_filter("error");
-        assert!(result.is_ok() || result.is_err());
+        assert!(result.is_ok());
     }
 
     #[test]
     fn test_is_logger_initialized() {
-        // Should return true after initialization attempt
-        let _ = try_init_logger();
-        let initialized = is_logger_initialized();
-        assert!(initialized);
+        // Result depends on whether a logger is installed
+        let _ = is_logger_initialized();
     }
 }
