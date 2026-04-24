@@ -6,7 +6,15 @@ This file provides guidance for AI agents working on the rat-trig-rs codebase.
 
 ### Essential Commands
 ```bash
-# Build
+# Using just (task runner)
+just                # Run check + test (default)
+just check         # cargo fmt --all --check + clippy
+just test          # cargo test --all-features --workspace
+just build         # cargo build --release
+just bench         # cargo bench
+just doc           # cargo doc ...
+
+# Manual commands
 cargo build                    # Debug build
 cargo build --release          # Release build with LTO enabled
 
@@ -100,6 +108,7 @@ where
 - `src/geometry.rs`: Structured geometry primitives (Point2D, Vector2D, Triangle2D, etc.)
 - `src/validation.rs`: Validation utilities
 - `src/const_trigonom.rs`: Const-evaluable functions for concrete types (i32, i64, f64)
+- `src/error.rs`: Error types (`MathError`) for fallible operations
 
 ### Documentation Standards
 
@@ -261,3 +270,31 @@ The project uses aggressive release optimizations (see `[profile.release]` in Ca
 - Panic on abort (`panic = "abort"`)
 
 New code should be performance-conscious and compatible with these optimizations.
+
+### Optional Features
+
+Enable optional functionality via Cargo features:
+```toml
+[dependencies]
+rat-trig-rs = { version = "0.1", features = ["std"] }  # Enables logging
+rat-trig-rs = { version = "0.1", features = ["serde"] }  # Enables serialization
+```
+
+### Error Handling
+
+**Use Result types for fallible operations**. The library provides `safe_*` variants that return `Result<T, MathError>`:
+```rust
+use rat_trig_rs::trigonom::safe_spread;
+
+let result = safe_spread((1.0, 0.0), (0.0, 0.0));
+assert!(result.is_err());  // Returns Err(MathError::DivisionByZero)
+```
+
+Error types are in `src/error.rs`:
+- `MathError::DivisionByZero`
+- `MathError::InvalidInput`
+- `MathError::Overflow`
+
+### Performance Notes
+
+- All public functions marked `#[inline]` for optimal inlining

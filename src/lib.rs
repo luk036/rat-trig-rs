@@ -16,7 +16,6 @@
 //!
 //! - `#![no_std]` compatible - works in embedded environments
 //! - Generic over numeric types - supports i32, i64, f64, and rational numbers
-//! - SIMD optimizations for bulk calculations (x86_64 + avx2)
 //! - Optional serde serialization support
 //! - Optional logging support (via `std` feature)
 //! - Safe variants with proper error handling for fallible operations

@@ -19,17 +19,17 @@ jobs:
       - name: Run tests
         run: cargo test --all-features --workspace
 
-  # msrv:
-  #   name: Minimum Supported Rust Version
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-  #     - name: Install Rust toolchain
-  #       uses: dtolnay/rust-toolchain@1.70.0
-  #     - uses: Swatinem/rust-cache@v2
-  #     - name: Run tests on MSRV
-  #       run: cargo test --all-features --workspace
+  msrv:
+    name: Minimum Supported Rust Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@1.70.0
+      - uses: Swatinem/rust-cache@v2
+      - name: Run tests on MSRV
+        run: cargo test --all-features --workspace
 
   rustfmt:
     name: Rustfmt
@@ -72,3 +72,16 @@ jobs:
         env:
           RUSTDOCFLAGS: -D warnings
         run: cargo doc --no-deps --document-private-items --all-features --workspace --examples
+
+  miri:
+    name: Miri (Undefined Behavior)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@nightly
+      - name: Install Miri
+        run: cargo +nightly install miri
+      - name: Run Miri
+        run: cargo +nightly miri test --all-features --workspace
