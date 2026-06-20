@@ -12,6 +12,8 @@ use core::ops::{Add, Div, Mul, Sub};
 
 /// Check if three points are collinear (lie on the same line).
 ///
+/// $$ (p_2 - p_1) \times (p_3 - p_1) = 0 $$
+///
 /// Returns true if the cross product of vectors (p2-p1) and (p3-p1) is zero.
 ///
 /// Example:
@@ -85,6 +87,8 @@ where
 
 /// Calculate the perimeter squared of a triangle from its side quadrances
 ///
+/// $$ P^2 = (\sqrt{q_1} + \sqrt{q_2} + \sqrt{q_3})^2 = q_1 + q_2 + q_3 + 2\sqrt{q_1 q_2} + 2\sqrt{q_1 q_3} + 2\sqrt{q_2 q_3} $$
+///
 /// Returns (sqrt(q1) + sqrt(q2) + sqrt(q3))²
 ///
 /// Note: This function works directly with quadrances and computes the squared perimeter
@@ -145,6 +149,8 @@ where
 
 /// Check if two lines are parallel (their direction vectors are scalar multiples)
 ///
+/// $$ a_1 b_2 - a_2 b_1 = 0 $$
+///
 /// Returns true if lines l1: a1*x + b1*y + c1 = 0 and l2: a2*x + b2*y + c2 = 0 are parallel
 #[inline]
 pub fn are_lines_parallel<T>(l_1: (T, T, T), l_2: (T, T, T)) -> bool
@@ -156,6 +162,8 @@ where
 }
 
 /// Check if two lines are perpendicular (their direction vectors have dot product = 0)
+///
+/// $$ a_1 a_2 + b_1 b_2 = 0 $$
 ///
 /// Returns true if lines l1: a1*x + b1*y + c1 = 0 and l2: a2*x + b2*y + c2 = 0 are perpendicular
 #[inline]
@@ -169,6 +177,8 @@ where
 
 /// Check if a point lies on a line
 ///
+/// $$ a x + b y + c = 0 $$
+///
 /// Returns true if point (x, y) satisfies line equation ax + by + c = 0
 #[inline]
 pub fn point_on_line<T>(point: (T, T), line: (T, T, T)) -> bool
@@ -180,6 +190,8 @@ where
 }
 
 /// Check if a point lies inside a triangle using barycentric coordinates
+///
+/// $$ \alpha \ge 0,\; \beta \ge 0,\; \gamma \ge 0 \quad \text{where} \quad \alpha + \beta + \gamma = 1 $$
 ///
 /// Returns true if point is inside or on the boundary of the triangle
 #[inline]
@@ -216,6 +228,8 @@ where
 }
 
 /// Calculate the perimeter squared of a triangle from its side quadrances using f64
+///
+/// $$ P^2 = (\sqrt{q_1} + \sqrt{q_2} + \sqrt{q_3})^2 $$
 ///
 /// Returns (sqrt(q1) + sqrt(q2) + sqrt(q3))²
 ///

@@ -1,6 +1,8 @@
 /// Module containing const versions of trigonometric functions for specific concrete types.
 /// These functions can be used in const contexts with concrete numeric types.
 /// Calculate quadrance (square of distance) between two points with i64 coordinates
+///
+/// $$ Q(p_1, p_2) = (x_2 - x_1)^2 + (y_2 - y_1)^2 $$
 #[inline]
 pub const fn quadrance_i64(p_1: (i64, i64), p_2: (i64, i64)) -> i64 {
     let dx = p_1.0 - p_2.0;
@@ -9,6 +11,8 @@ pub const fn quadrance_i64(p_1: (i64, i64), p_2: (i64, i64)) -> i64 {
 }
 
 /// Calculate Archimedes formula (quadrea) for a triangle with i64 side lengths
+///
+/// $$ \text{quadrea}(q_1, q_2, q_3) = 4 q_1 q_2 - (q_1 + q_2 - q_3)^2 $$
 #[inline]
 pub const fn archimedes_i64(q_1: i64, q_2: i64, q_3: i64) -> i64 {
     let temp = q_1 + q_2 - q_3;
@@ -17,6 +21,8 @@ pub const fn archimedes_i64(q_1: i64, q_2: i64, q_3: i64) -> i64 {
 }
 
 /// Calculate spread (square of sine) between two vectors with i64 coordinates
+///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
 #[inline]
 pub const fn spread_i64(v_1: (i64, i64), v_2: (i64, i64)) -> i64 {
     let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
@@ -31,6 +37,8 @@ pub const fn spread_i64(v_1: (i64, i64), v_2: (i64, i64)) -> i64 {
 }
 
 /// Calculate cross product of two 2D vectors with i64 coordinates
+///
+/// $$ \text{cross}(v_1, v_2) = x_1 y_2 - y_1 x_2 $$
 #[inline]
 pub const fn cross_i64(v_1: (i64, i64), v_2: (i64, i64)) -> i64 {
     v_1.0 * v_2.1 - v_1.1 * v_2.0
@@ -109,6 +117,8 @@ pub const fn cross_f64(v_1: (f64, f64), v_2: (f64, f64)) -> f64 {
 }
 
 /// Calculate quadrance (square of distance) between two points with u32 coordinates
+///
+/// $$ Q(p_1, p_2) = |x_2 - x_1|^2 + |y_2 - y_1|^2 $$
 #[inline]
 pub const fn quadrance_u32(p_1: (u32, u32), p_2: (u32, u32)) -> u32 {
     let dx = p_1.0.abs_diff(p_2.0);
@@ -139,6 +149,8 @@ pub const fn spread_u32(v_1: (u32, u32), v_2: (u32, u32)) -> u32 {
 }
 
 /// Calculate cross product of two 2D vectors with u32 coordinates
+///
+/// $$ \text{cross}(v_1, v_2) = |x_1 y_2 - y_1 x_2| $$
 ///
 /// Note: Uses wrapping subtraction since cross product can be negative.
 /// For unsigned types, the result is the absolute value of the cross product.
