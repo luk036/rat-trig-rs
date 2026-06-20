@@ -273,6 +273,8 @@ impl<T> Triangle2D<T> {
     }
 
     /// Calculate the quadrances of the triangle sides
+    ///
+    /// $$ (q_1, q_2, q_3) = (|p_2 - p_3|^2,\\; |p_1 - p_3|^2,\\; |p_1 - p_2|^2) $$
     pub fn quadrances(&self) -> (T, T, T)
     where
         T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,
@@ -287,6 +289,8 @@ impl<T> Triangle2D<T> {
     }
 
     /// Calculate the area using Archimedes' formula
+    ///
+    /// $$ \text{quadrea} = 4 q_1 q_2 - (q_1 + q_2 - q_3)^2 $$
     pub fn area(&self) -> T
     where
         T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T> + One + Zero,
@@ -298,6 +302,8 @@ impl<T> Triangle2D<T> {
     }
 
     /// Calculate the twist (twice the signed area) of the triangle
+    ///
+    /// $$ \text{twist} = (x_2 - x_1)(y_3 - y_1) - (y_2 - y_1)(x_3 - x_1) $$
     pub fn twist(&self) -> T
     where
         T: Copy + Sub<Output = T> + Mul<Output = T>,
@@ -307,6 +313,8 @@ impl<T> Triangle2D<T> {
     }
 
     /// Check if the triangle is degenerate (all points collinear)
+    ///
+    /// $$ \text{twist} = 0 $$
     pub fn is_degenerate(&self) -> bool
     where
         T: Copy + Sub<Output = T> + Mul<Output = T> + Zero + PartialEq,
@@ -340,6 +348,8 @@ impl<T> Triangle3D<T> {
     }
 
     /// Calculate the quadrances of the triangle sides
+    ///
+    /// $$ (q_1, q_2, q_3) = (|p_2 - p_3|^2,\\; |p_1 - p_3|^2,\\; |p_1 - p_2|^2) $$
     pub fn quadrances(&self) -> (T, T, T)
     where
         T: Copy + Add<Output = T> + Sub<Output = T> + Mul<Output = T>,

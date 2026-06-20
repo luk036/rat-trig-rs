@@ -27,6 +27,8 @@ use core::ops::{Add, Div, Mul, Sub};
 /// The function `archimedes` calculates the quadrea (4 times the squared area) of a triangle using
 /// Archimedes' formula with the quadrances (squared lengths) of the three sides.
 ///
+/// $$ \text{quadrea}(q_1, q_2, q_3) = 4 q_1 q_2 - (q_1 + q_2 - q_3)^2 $$
+///
 /// Arguments:
 ///
 /// * `q_1`: Represents the quadrance (squared length) of the first side of the triangle.
@@ -61,6 +63,8 @@ where
 
 /// Calculate the quadrance (squared distance) between two 2D points.
 ///
+/// $$ Q(p_1, p_2) = (x_2 - x_1)^2 + (y_2 - y_1)^2 $$
+///
 /// Arguments:
 ///
 /// * `p_1`: First point as a tuple (x, y).
@@ -89,6 +93,8 @@ where
 }
 
 /// Calculate the spread (square of sine) between two 2D vectors.
+///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
 ///
 /// Arguments:
 ///
@@ -120,6 +126,8 @@ where
 
 /// Calculate spread (square of sine) between two vectors with error checking
 ///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
+///
 /// Returns `MathError::DivisionByZero` if either vector has zero magnitude.
 #[inline]
 pub fn safe_spread<T>(v_1: (T, T), v_2: (T, T)) -> Result<T, crate::error::MathError>
@@ -145,6 +153,8 @@ where
 }
 
 /// Calculate the cross product (signed area) of two 2D vectors.
+///
+/// $$ \text{cross}(v_1, v_2) = x_1 y_2 - y_1 x_2 $$
 ///
 /// Arguments:
 ///
@@ -172,6 +182,8 @@ where
 }
 
 /// Calculate the quadrance (squared distance) from a point to a line.
+///
+/// $$ Q(p, l) = \frac{(a x + b y + c)^2}{a^2 + b^2} $$
 ///
 /// Arguments:
 ///
@@ -201,6 +213,8 @@ where
 
 /// Calculate quadrance from line with error checking
 ///
+/// $$ Q(p, l) = \frac{(a x + b y + c)^2}{a^2 + b^2} $$
+///
 /// Returns `MathError::DivisionByZero` if the line has zero magnitude.
 #[inline]
 pub fn safe_quadrance_from_line<T>(p: (T, T), l: (T, T, T)) -> Result<T, crate::error::MathError>
@@ -224,6 +238,8 @@ where
 }
 
 /// Calculate the spread (angle measure) between two lines.
+///
+/// $$ s(l_1, l_2) = \frac{(a_1 b_2 - a_2 b_1)^2}{(a_1^2 + b_1^2)(a_2^2 + b_2^2)} $$
 ///
 /// Arguments:
 ///
@@ -255,6 +271,8 @@ where
 
 /// Calculate spread from line with error checking
 ///
+/// $$ s(l_1, l_2) = \frac{(a_1 b_2 - a_2 b_1)^2}{(a_1^2 + b_1^2)(a_2^2 + b_2^2)} $$
+///
 /// Returns `MathError::DivisionByZero` if either line has zero magnitude.
 #[inline]
 pub fn safe_spread_from_line<T>(
@@ -283,6 +301,8 @@ where
 
 /// Calculate the cross product (determinant) of two 2D lines.
 ///
+/// $$ \text{cross}(l_1, l_2) = a_1 b_2 - a_2 b_1 $$
+///
 /// Arguments:
 ///
 /// * `l_1`: First line coefficients as (a, b, c) where a*x + b*y + c = 0.
@@ -309,6 +329,8 @@ where
 }
 
 /// Calculate the quadrances (squared side lengths) of a triangle defined by three points.
+///
+/// $$ (q_1, q_2, q_3) = (Q(p_2, p_3),\; Q(p_1, p_3),\; Q(p_1, p_2)) $$
 ///
 /// Arguments:
 ///
@@ -345,6 +367,8 @@ where
 }
 
 /// Calculate the spreads (angle measures) of a triangle defined by three points.
+///
+/// $$ s_1 = 1 - \frac{(q_2 + q_3 - q_1)^2}{4 q_2 q_3},\quad s_2 = 1 - \frac{(q_1 + q_3 - q_2)^2}{4 q_1 q_3},\quad s_3 = 1 - \frac{(q_1 + q_2 - q_3)^2}{4 q_1 q_2} $$
 ///
 /// Arguments:
 ///
@@ -385,6 +409,8 @@ where
 
 /// Calculate the cross product (twice the signed area) of a triangle defined by three points.
 ///
+/// $$ \text{cross}(p_1, p_2, p_3) = (x_2 - x_1)(y_3 - y_1) - (y_2 - y_1)(x_3 - x_1) $$
+///
 /// Arguments:
 ///
 /// * `p_1`: First vertex of the triangle as a tuple (x, y).
@@ -416,6 +442,8 @@ where
 }
 
 /// Calculate quadrance (square of distance) between two 3D points
+///
+/// $$ Q_3(p_1, p_2) = (x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2 $$
 #[inline]
 pub fn quadrance3d<T>(p_1: (T, T, T), p_2: (T, T, T)) -> T
 where
@@ -428,6 +456,8 @@ where
 }
 
 /// Calculate cross product of two 3D vectors
+///
+/// $$ v_1 \times v_2 = (y_1 z_2 - z_1 y_2,\; z_1 x_2 - x_1 z_2,\; x_1 y_2 - y_1 x_2) $$
 #[inline]
 pub fn cross3d<T>(v_1: (T, T, T), v_2: (T, T, T)) -> (T, T, T)
 where
@@ -441,6 +471,8 @@ where
 }
 
 /// Calculate spread (square of sine) between two 3D vectors.
+///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
 ///
 /// Arguments:
 ///
@@ -462,6 +494,9 @@ where
 }
 
 /// Calculate twist (signed area) of triangle formed by three points
+///
+/// $$ \text{twist}(p_1, p_2, p_3) = (x_2 - x_1)(y_3 - y_1) - (y_2 - y_1)(x_3 - x_1) $$
+///
 /// Twist is twice the signed area of the triangle
 #[inline]
 pub fn twist<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> T
@@ -472,6 +507,9 @@ where
 }
 
 /// Calculate turn (oriented angle measure) between three points
+///
+/// $$ (s, \text{sign}) \quad \text{where} \quad s = \text{spread}(v_1, v_2),\; \text{sign} = \text{cross}(v_1, v_2) \ge 0 $$
+///
 /// Returns the spread and its sign based on orientation
 #[inline]
 pub fn turn<T>(p_1: (T, T), p_2: (T, T), p_3: (T, T)) -> (T, bool)
@@ -493,6 +531,9 @@ where
 }
 
 /// Calculate dilatation between two vectors
+///
+/// $$ D(v_1, v_2) = \frac{|v_2|^2}{|v_1|^2} = \frac{Q(v_2, 0)}{Q(v_1, 0)} $$
+///
 /// Dilatation is the ratio of lengths squared
 #[inline]
 pub fn dilatation<T>(v_1: (T, T), v_2: (T, T)) -> T
@@ -515,6 +556,8 @@ where
 }
 
 /// Calculate dilatation between two vectors with error checking
+///
+/// $$ D(v_1, v_2) = \frac{|v_2|^2}{|v_1|^2} $$
 ///
 /// Returns `MathError::DivisionByZero` if the first vector has zero magnitude.
 #[inline]
@@ -539,6 +582,9 @@ where
 }
 
 /// Calculate the sine law equivalent in rational trigonometry
+///
+/// $$ q_1 \cdot s_1 = q_2 \cdot s_2 = q_3 \cdot s_3 $$
+///
 /// For a triangle with sides q1, q2, q3 and corresponding spreads s1, s2, s3
 /// This verifies: q1 * s1 = q2 * s2 = q3 * s3
 #[inline]
@@ -550,8 +596,10 @@ where
 }
 
 /// Calculate the cosine law equivalent in rational trigonometry
+///
+/// $$ s_1 = 1 - \frac{(q_2 + q_3 - q_1)^2}{4 q_2 q_3} $$
+///
 /// For a triangle with quadrances q1, q2, q3 and spread s1 opposite q1
-/// s1 = 1 - (q2 + q3 - q1)² / (4 * q2 * q3)
 #[inline]
 pub fn cosine_law<T>(q_1: T, q_2: T, q_3: T) -> T
 where
@@ -573,6 +621,8 @@ where
 }
 
 /// Calculate the cosine law equivalent in rational trigonometry with error checking
+///
+/// $$ s_1 = 1 - \frac{(q_2 + q_3 - q_1)^2}{4 q_2 q_3} $$
 ///
 /// Returns `MathError::DivisionByZero` if either q2 or q3 is zero.
 #[inline]
