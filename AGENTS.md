@@ -107,7 +107,7 @@ where
 - `src/trigonom.rs`: Core rational trigonometry functions
 - `src/geometry.rs`: Structured geometry primitives (Point2D, Vector2D, Triangle2D, etc.)
 - `src/validation.rs`: Validation utilities
-- `src/const_trigonom.rs`: Const-evaluable functions for concrete types (i32, i64, f64)
+- `src/const_trigonom.rs`: Const-evaluable functions for concrete types (i32, i64, u32, u64, i128, u128)
 - `src/error.rs`: Error types (`MathError`) for fallible operations
 
 ### Documentation Standards
@@ -152,7 +152,7 @@ where
 **All tests in `#[cfg(test)]` modules within each source file**
 - Test module at end of file
 - Use descriptive test names: `test_<function_name>`, `test_<function_name>_<scenario>`
-- Test multiple numeric types: i32, i64, f64, Rational32
+- Test multiple numeric types: i32, i64, Rational32
 - Use `assert_eq!` for exact comparisons
 - Use `assert!` for boolean checks
 
@@ -240,7 +240,7 @@ where
 ### Const Evaluation
 
 **For const contexts, provide concrete implementations** in `const_trigonom.rs`:
-- Function pattern: `<function_name>_<type>` (e.g., `quadrance_i64`, `spread_f64`)
+- Function pattern: `<function_name>_<type>` (e.g., `quadrance_i64`, `spread_i64`)
 - Use `const fn` instead of `fn`
 - No trait bounds, concrete types only
 

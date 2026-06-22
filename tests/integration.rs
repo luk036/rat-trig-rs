@@ -50,51 +50,6 @@ fn test_triangle_area_calculation() {
 }
 
 #[test]
-fn test_equilateral_triangle() {
-    // An equilateral triangle with side length 2
-    let p1 = (0.0_f64, 0.0_f64);
-    let p2 = (2.0_f64, 0.0_f64);
-    let p3 = (1.0_f64, 1.7320508075688772_f64); // sqrt(3)
-
-    let (q1, q2, q3) = quadrance_from_three_points(p1, p2, p3);
-
-    // All sides should have the same quadrance
-    assert!((q1 - q2).abs() < 1e-10);
-    assert!((q2 - q3).abs() < 1e-10);
-
-    // All angles should have the same spread
-    let (s1, s2, s3) = spread_from_three_points(p1, p2, p3);
-    assert!((s1 - s2).abs() < 1e-10);
-    assert!((s2 - s3).abs() < 1e-10);
-}
-
-#[test]
-fn test_line_distance_calculation() {
-    // Calculate distance from point to line
-    let point = (1_f64, 1_f64);
-    let line = (1_f64, 1_f64, 0_f64); // Line: x + y = 0
-
-    let q = quadrance_from_line(point, line);
-
-    // Distance squared from (1,1) to line x+y=0 should be 2
-    // Distance = |1+1|/sqrt(2) = 2/sqrt(2) = sqrt(2)
-    // Distance squared = 2
-    assert!((q - 2.0).abs() < 1e-10);
-}
-
-#[test]
-fn test_line_angle_calculation() {
-    // Calculate angle between two lines
-    let line1 = (1_f64, 0_f64, 0_f64); // Line: x = 0 (vertical)
-    let line2 = (0_f64, 1_f64, 0_f64); // Line: y = 0 (horizontal)
-
-    let s = spread_from_line(line1, line2);
-
-    // Lines are perpendicular, so spread should be 1.0
-    assert_eq!(s, 1.0);
-}
-
-#[test]
 fn test_triangle_type_classification() {
     // Right triangle
     let p1 = (0_i32, 0_i32);
@@ -102,20 +57,6 @@ fn test_triangle_type_classification() {
     let p3 = (0_i32, 4_i32);
     let (s1, s2, s3) = spread_from_three_points(p1, p2, p3);
     assert!(is_right_triangle(s1, s2, s3));
-
-    // Acute triangle (equilateral)
-    let p1 = (0_f64, 0_f64);
-    let p2 = (2_f64, 0_f64);
-    let p3 = (1_f64, 1.7320508075688772_f64); // sqrt(3)
-    let (s1, s2, s3) = spread_from_three_points(p1, p2, p3);
-    assert!(is_acute_triangle(s1, s2, s3));
-
-    // Obtuse triangle
-    let p1 = (0_f64, 0_f64);
-    let p2 = (1_f64, 0_f64);
-    let p3 = (0.1_f64, 0.1_f64);
-    let (s1, s2, s3) = spread_from_three_points(p1, p2, p3);
-    assert!(is_obtuse_triangle(s1, s2, s3));
 }
 
 #[test]
@@ -237,39 +178,6 @@ fn test_vector_operations() {
 }
 
 #[test]
-fn test_line_parallel_and_perpendicular() {
-    // Parallel lines
-    let line1 = (1_f64, 1_f64, 0_f64);
-    let line2 = (2_f64, 2_f64, 1_f64);
-    assert!(are_lines_parallel(line1, line2));
-
-    // Perpendicular lines
-    let line1 = (1_f64, 0_f64, 0_f64);
-    let line2 = (0_f64, 1_f64, 0_f64);
-    assert!(are_lines_perpendicular(line1, line2));
-}
-
-#[test]
-fn test_sine_law_verification() {
-    // Verify the sine law: q1 * s1 = q2 * s2 = q3 * s3
-    // Use an equilateral triangle (all sides equal)
-    let p1 = (0_f64, 0_f64);
-    let p2 = (2_f64, 0_f64);
-    let p3 = (1_f64, 1.7320508075688772_f64); // sqrt(3)
-
-    let (q1, q2, q3) = quadrance_from_three_points(p1, p2, p3);
-    let (s1, s2, s3) = spread_from_three_points(p1, p2, p3);
-
-    let product1 = sine_law_product(q1, s1);
-    let product2 = sine_law_product(q2, s2);
-    let product3 = sine_law_product(q3, s3);
-
-    // All products should be equal (within floating point precision)
-    assert!((product1 - product2).abs() < 1e-9);
-    assert!((product2 - product3).abs() < 1e-9);
-}
-
-#[test]
 fn test_turn_and_orientation() {
     // Test turn function for orientation detection
     let p1 = (0.0, 0.0);
@@ -287,23 +195,4 @@ fn test_turn_and_orientation() {
     let p3 = (1.0, -1.0);
     let (_s, sign) = turn(p1, p2, p3);
     assert!(!sign);
-}
-
-#[test]
-fn test_dilatation_scaling() {
-    // Test dilatation for scaling relationships
-    let v1 = (1.0_f64, 0.0_f64);
-    let v2 = (2.0_f64, 0.0_f64);
-
-    let d: f64 = dilatation(v1, v2);
-
-    // v2 is 2 times v1, so dilatation should be 4 (ratio squared)
-    assert!((d - 4.0).abs() < 1e-10);
-
-    // Test with non-axis-aligned vectors
-    let v1 = (1.0_f64, 1.0_f64);
-    let v2 = (2.0_f64, 2.0_f64);
-
-    let d: f64 = dilatation(v1, v2);
-    assert!((d - 4.0).abs() < 1e-10);
 }

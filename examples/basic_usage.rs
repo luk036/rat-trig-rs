@@ -19,21 +19,10 @@ fn main() {
         "  Distance squared between ({}, {}) and ({}, {}): {}",
         p1.0, p1.1, p2.0, p2.1, q
     );
-    println!("  Actual distance: {}\n", (q as f64).sqrt());
+    println!();
 
-    // Example 2: Calculate spread (squared sine)
-    println!("Example 2: Spread (squared sine of angle)");
-    let v1 = (1.0, 1.0);
-    let v2 = (1.0, 0.0);
-    let s: f64 = spread(v1, v2);
-    println!(
-        "  Spread between vectors ({}, {}) and ({}, {}): {}",
-        v1.0, v1.1, v2.0, v2.1, s
-    );
-    println!("  Actual sine: {}\n", s.sqrt());
-
-    // Example 3: Calculate cross product
-    println!("Example 3: Cross product");
+    // Example 2: Calculate cross product
+    println!("Example 2: Cross product");
     let v1 = (1, 1);
     let v2 = (1, 0);
     let c = cross(v1, v2);
@@ -42,8 +31,8 @@ fn main() {
         v1.0, v1.1, v2.0, v2.1, c
     );
 
-    // Example 4: Triangle properties
-    println!("Example 4: Triangle properties");
+    // Example 3: Triangle properties
+    println!("Example 3: Triangle properties");
     let p1 = (0, 0);
     let p2 = (3, 0);
     let p3 = (0, 4);
@@ -63,10 +52,10 @@ fn main() {
 
     let quadrea = archimedes(&q1, &q2, &q3);
     println!("  Quadrea (16 * area^2): {}", quadrea);
-    println!("  Area: {}\n", (quadrea as f64).sqrt() / 4.0);
+    println!();
 
-    // Example 5: Using geometry primitives
-    println!("Example 5: Using geometry primitives");
+    // Example 4: Using geometry primitives
+    println!("Example 4: Using geometry primitives");
     let p1 = Point2D::new(0, 0);
     let p2 = Point2D::new(3, 0);
     let p3 = Point2D::new(0, 4);
@@ -76,8 +65,8 @@ fn main() {
     println!("  Triangle twist (2 * signed area): {}", triangle.twist());
     println!("  Is degenerate: {}\n", triangle.is_degenerate());
 
-    // Example 6: Rational calculations
-    println!("Example 6: Exact rational calculations");
+    // Example 5: Rational calculations
+    println!("Example 5: Exact rational calculations");
     let q1 = Ratio::new(1, 2);
     let q2 = Ratio::new(1, 4);
     let q3 = Ratio::new(1, 6);
@@ -86,8 +75,8 @@ fn main() {
     println!("    q1 = {}, q2 = {}, q3 = {}", q1, q2, q3);
     println!("    Quadrea = {} (exact rational result)\n", quadrea);
 
-    // Example 7: Validation
-    println!("Example 7: Geometric validation");
+    // Example 6: Validation
+    println!("Example 6: Geometric validation");
     let p1 = (0, 0);
     let p2 = (1, 1);
     let p3 = (2, 2);
@@ -98,8 +87,8 @@ fn main() {
     println!("  Are collinear: {}", are_collinear(p1, p2, p3));
     println!("  Form valid triangle: {}\n", is_valid_triangle(p1, p2, p3));
 
-    // Example 8: 3D operations
-    println!("Example 8: 3D operations");
+    // Example 7: 3D operations
+    println!("Example 7: 3D operations");
     let p1 = (0, 0, 0);
     let p2 = (1, 2, 3);
     let q3d = quadrance3d(p1, p2);

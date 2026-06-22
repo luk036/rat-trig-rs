@@ -36,7 +36,7 @@ rat-trig-rs = "0.1"
 ### Quick Example
 
 ```rust
-use rat_trig_rs::trigonom::{quadrance, spread};
+use rat_trig_rs::trigonom::quadrance;
 use rat_trig_rs::geometry::{Point2D, Triangle2D};
 
 fn main() {
@@ -45,12 +45,6 @@ fn main() {
     let p2 = (4, 6);
     let q = quadrance(p1, p2);
     println!("Quadrance: {}", q);  // Output: 25
-
-    // Calculate spread (squared sine) between two vectors
-    let v1 = (1.0, 1.0);
-    let v2 = (1.0, 0.0);
-    let s = spread(v1, v2);
-    println!("Spread: {}", s);  // Output: 0.5
 
     // Work with geometry primitives
     let triangle = Triangle2D::new(
@@ -79,14 +73,16 @@ let q = quadrance(p1, p2);  // q = 25 (distance²)
 
 ### Spread
 
-Spread represents the square of the sine of an angle between two vectors:
+Spread represents the square of the sine of an angle between two vectors.
+For exact rational arithmetic, use rational numbers:
 
 ```rust
+use num_rational::Ratio;
 use rat_trig_rs::trigonom::spread;
 
-let v1 = (1.0, 1.0);
-let v2 = (1.0, 0.0);
-let s = spread(v1, v2);  // s = 0.5 (sin²(45°))
+let v1 = (Ratio::new(1, 1), Ratio::new(1, 1));
+let v2 = (Ratio::new(1, 1), Ratio::new(0, 1));
+let s = spread(v1, v2);  // s = 1/2 (sin²(45°))
 ```
 
 ### Archimedes' Formula
@@ -101,7 +97,7 @@ let p2 = (3, 0);
 let p3 = (0, 4);
 let (q1, q2, q3) = quadrance_from_three_points(p1, p2, p3);
 let quadrea = archimedes(&q1, &q2, &q3);
-let area = (quadrea as f64).sqrt() / 4.0;  // area = 6.0
+// area = (quadrea as f64).sqrt() / 4.0 = 6.0  (when converted to float)
 ```
 
 ## 🔧 API Overview
@@ -159,7 +155,7 @@ assert!(is_right_triangle(s1, s2, s3));
 ## 📦 Features
 
 - **`#![no_std]`** - Works in embedded environments
-- **Generic** - Works with i32, i64, f64, and rational types
+- **Generic** - Works with i32, i64, and rational types
 - **Exact arithmetic** - No floating-point errors with rational types
 - **Const-friendly** - Const-evaluable functions available for concrete types
 

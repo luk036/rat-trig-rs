@@ -49,8 +49,7 @@ where
 ///
 /// Returns true if each side is less than the sum of the other two.
 ///
-/// For exact checking with quadrances, convert to f64:
-/// `satisfies_triangle_inequality(q1 as f64, q2 as f64, q3 as f64)`
+/// This works with any numeric type that supports comparison.
 ///
 /// Example:
 ///
@@ -95,7 +94,7 @@ where
 /// without taking square roots, avoiding floating-point operations where possible.
 /// The formula expands to: q1 + q2 + q3 + 2*(sqrt(q1*q2) + sqrt(q1*q3) + sqrt(q2*q3))
 ///
-/// For exact rational arithmetic, consider using the expanded form or converting to f64.
+/// For exact rational arithmetic, consider using the expanded form.
 #[inline]
 pub fn perimeter_squared<T>(q_1: T, q_2: T, q_3: T) -> T
 where
@@ -109,7 +108,6 @@ where
     // we compute a related quantity: the sum of quadrances
     // Note: Without square root capability in generic T, we return the sum of quadrances
     // This is q1 + q2 + q3, which is part of the perimeter_squared expansion
-    // For true perimeter_squared, use with f64 type where sqrt is available
     q_1 + q_2 + q_3
 }
 
@@ -225,23 +223,6 @@ where
     let c = T::one() - a - b;
 
     a >= T::zero() && b >= T::zero() && c >= T::zero()
-}
-
-/// Calculate the perimeter squared of a triangle from its side quadrances using f64
-///
-/// $$ P^2 = (\sqrt{q_1} + \sqrt{q_2} + \sqrt{q_3})^2 $$
-///
-/// Returns (sqrt(q1) + sqrt(q2) + sqrt(q3))²
-///
-/// This is the floating-point version that can compute actual square roots.
-#[cfg(feature = "std")]
-#[inline]
-pub fn perimeter_squared_f64(q_1: f64, q_2: f64, q_3: f64) -> f64 {
-    let sqrt_q1 = q_1.sqrt();
-    let sqrt_q2 = q_2.sqrt();
-    let sqrt_q3 = q_3.sqrt();
-    let perimeter = sqrt_q1 + sqrt_q2 + sqrt_q3;
-    perimeter * perimeter
 }
 
 #[cfg(test)]
@@ -387,31 +368,6 @@ mod tests {
         // Equilateral triangle with side length 2 (quadrance 4)
         let result = perimeter_squared(4, 4, 4);
         assert_eq!(result, 12); // 4 + 4 + 4
-    }
-
-    #[cfg(feature = "std")]
-    #[test]
-    fn test_perimeter_squared_f64() {
-        // For a 3-4-5 triangle (quadrances: 9, 16, 25)
-        // Perimeter = 3 + 4 + 5 = 12, perimeter_squared = 144
-        let result = perimeter_squared_f64(9.0, 16.0, 25.0);
-        assert!((result - 144.0).abs() < 1e-10);
-    }
-
-    #[cfg(feature = "std")]
-    #[test]
-    fn test_perimeter_squared_f64_zero() {
-        let result = perimeter_squared_f64(0.0, 0.0, 0.0);
-        assert_eq!(result, 0.0);
-    }
-
-    #[cfg(feature = "std")]
-    #[test]
-    fn test_perimeter_squared_f64_equal_sides() {
-        // Equilateral triangle with side length 2 (quadrance 4)
-        // Perimeter = 2 + 2 + 2 = 6, perimeter_squared = 36
-        let result = perimeter_squared_f64(4.0, 4.0, 4.0);
-        assert!((result - 36.0).abs() < 1e-10);
     }
 
     #[test]
