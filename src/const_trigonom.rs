@@ -45,6 +45,8 @@ pub const fn cross_i64(v_1: (i64, i64), v_2: (i64, i64)) -> i64 {
 }
 
 /// Calculate quadrance (square of distance) between two points with i32 coordinates
+///
+/// $$ Q(p_1, p_2) = (x_2 - x_1)^2 + (y_2 - y_1)^2 $$
 #[inline]
 pub const fn quadrance_i32(p_1: (i32, i32), p_2: (i32, i32)) -> i32 {
     let dx = p_1.0 - p_2.0;
@@ -53,6 +55,8 @@ pub const fn quadrance_i32(p_1: (i32, i32), p_2: (i32, i32)) -> i32 {
 }
 
 /// Calculate Archimedes formula (quadrea) for a triangle with i32 side lengths
+///
+/// $$ \text{quadrea}(q_1, q_2, q_3) = 4 q_1 q_2 - (q_1 + q_2 - q_3)^2 $$
 #[inline]
 pub const fn archimedes_i32(q_1: i32, q_2: i32, q_3: i32) -> i32 {
     let temp = q_1 + q_2 - q_3;
@@ -61,6 +65,8 @@ pub const fn archimedes_i32(q_1: i32, q_2: i32, q_3: i32) -> i32 {
 }
 
 /// Calculate spread (square of sine) between two vectors with i32 coordinates
+///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
 #[inline]
 pub const fn spread_i32(v_1: (i32, i32), v_2: (i32, i32)) -> i32 {
     let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
@@ -75,6 +81,8 @@ pub const fn spread_i32(v_1: (i32, i32), v_2: (i32, i32)) -> i32 {
 }
 
 /// Calculate cross product of two 2D vectors with i32 coordinates
+///
+/// $$ \text{cross}(v_1, v_2) = x_1 y_2 - y_1 x_2 $$
 #[inline]
 pub const fn cross_i32(v_1: (i32, i32), v_2: (i32, i32)) -> i32 {
     v_1.0 * v_2.1 - v_1.1 * v_2.0
@@ -91,6 +99,8 @@ pub const fn quadrance_u32(p_1: (u32, u32), p_2: (u32, u32)) -> u32 {
 }
 
 /// Calculate Archimedes formula (quadrea) for a triangle with u32 side lengths
+///
+/// $$ \text{quadrea}(q_1, q_2, q_3) = 4 q_1 q_2 - (q_1 + q_2 - q_3)^2 $$
 #[inline]
 pub const fn archimedes_u32(q_1: u32, q_2: u32, q_3: u32) -> u32 {
     let temp = q_1 + q_2 - q_3;
@@ -99,6 +109,8 @@ pub const fn archimedes_u32(q_1: u32, q_2: u32, q_3: u32) -> u32 {
 }
 
 /// Calculate spread (square of sine) between two vectors with u32 coordinates
+///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
 #[inline]
 pub const fn spread_u32(v_1: (u32, u32), v_2: (u32, u32)) -> u32 {
     let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
@@ -126,6 +138,8 @@ pub const fn cross_u32(v_1: (u32, u32), v_2: (u32, u32)) -> u32 {
 }
 
 /// Calculate quadrance (square of distance) between two points with u64 coordinates
+///
+/// $$ Q(p_1, p_2) = |x_2 - x_1|^2 + |y_2 - y_1|^2 $$
 #[inline]
 pub const fn quadrance_u64(p_1: (u64, u64), p_2: (u64, u64)) -> u64 {
     let dx = p_1.0.abs_diff(p_2.0);
@@ -134,6 +148,8 @@ pub const fn quadrance_u64(p_1: (u64, u64), p_2: (u64, u64)) -> u64 {
 }
 
 /// Calculate Archimedes formula (quadrea) for a triangle with u64 side lengths
+///
+/// $$ \text{quadrea}(q_1, q_2, q_3) = 4 q_1 q_2 - (q_1 + q_2 - q_3)^2 $$
 #[inline]
 pub const fn archimedes_u64(q_1: u64, q_2: u64, q_3: u64) -> u64 {
     let temp = q_1 + q_2 - q_3;
@@ -142,6 +158,8 @@ pub const fn archimedes_u64(q_1: u64, q_2: u64, q_3: u64) -> u64 {
 }
 
 /// Calculate spread (square of sine) between two vectors with u64 coordinates
+///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
 #[inline]
 pub const fn spread_u64(v_1: (u64, u64), v_2: (u64, u64)) -> u64 {
     let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
@@ -157,6 +175,8 @@ pub const fn spread_u64(v_1: (u64, u64), v_2: (u64, u64)) -> u64 {
 
 /// Calculate cross product of two 2D vectors with u64 coordinates
 ///
+/// $$ \text{cross}(v_1, v_2) = |x_1 y_2 - y_1 x_2| $$
+///
 /// Note: Uses wrapping subtraction since cross product can be negative.
 /// For unsigned types, the result is the absolute value of the cross product.
 #[inline]
@@ -167,6 +187,8 @@ pub const fn cross_u64(v_1: (u64, u64), v_2: (u64, u64)) -> u64 {
 }
 
 /// Calculate quadrance (square of distance) between two points with i128 coordinates
+///
+/// $$ Q(p_1, p_2) = (x_2 - x_1)^2 + (y_2 - y_1)^2 $$
 #[inline]
 pub const fn quadrance_i128(p_1: (i128, i128), p_2: (i128, i128)) -> i128 {
     let dx = p_1.0 - p_2.0;
@@ -175,6 +197,8 @@ pub const fn quadrance_i128(p_1: (i128, i128), p_2: (i128, i128)) -> i128 {
 }
 
 /// Calculate Archimedes formula (quadrea) for a triangle with i128 side lengths
+///
+/// $$ \text{quadrea}(q_1, q_2, q_3) = 4 q_1 q_2 - (q_1 + q_2 - q_3)^2 $$
 #[inline]
 pub const fn archimedes_i128(q_1: i128, q_2: i128, q_3: i128) -> i128 {
     let temp = q_1 + q_2 - q_3;
@@ -183,6 +207,8 @@ pub const fn archimedes_i128(q_1: i128, q_2: i128, q_3: i128) -> i128 {
 }
 
 /// Calculate spread (square of sine) between two vectors with i128 coordinates
+///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
 #[inline]
 pub const fn spread_i128(v_1: (i128, i128), v_2: (i128, i128)) -> i128 {
     let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
@@ -197,12 +223,16 @@ pub const fn spread_i128(v_1: (i128, i128), v_2: (i128, i128)) -> i128 {
 }
 
 /// Calculate cross product of two 2D vectors with i128 coordinates
+///
+/// $$ \text{cross}(v_1, v_2) = x_1 y_2 - y_1 x_2 $$
 #[inline]
 pub const fn cross_i128(v_1: (i128, i128), v_2: (i128, i128)) -> i128 {
     v_1.0 * v_2.1 - v_1.1 * v_2.0
 }
 
 /// Calculate quadrance (square of distance) between two points with u128 coordinates
+///
+/// $$ Q(p_1, p_2) = |x_2 - x_1|^2 + |y_2 - y_1|^2 $$
 #[inline]
 pub const fn quadrance_u128(p_1: (u128, u128), p_2: (u128, u128)) -> u128 {
     let dx = p_1.0.abs_diff(p_2.0);
@@ -211,6 +241,8 @@ pub const fn quadrance_u128(p_1: (u128, u128), p_2: (u128, u128)) -> u128 {
 }
 
 /// Calculate Archimedes formula (quadrea) for a triangle with u128 side lengths
+///
+/// $$ \text{quadrea}(q_1, q_2, q_3) = 4 q_1 q_2 - (q_1 + q_2 - q_3)^2 $$
 #[inline]
 pub const fn archimedes_u128(q_1: u128, q_2: u128, q_3: u128) -> u128 {
     let temp = q_1 + q_2 - q_3;
@@ -219,6 +251,8 @@ pub const fn archimedes_u128(q_1: u128, q_2: u128, q_3: u128) -> u128 {
 }
 
 /// Calculate spread (square of sine) between two vectors with u128 coordinates
+///
+/// $$ s(v_1, v_2) = 1 - \frac{(v_1 \cdot v_2)^2}{|v_1|^2 |v_2|^2} $$
 #[inline]
 pub const fn spread_u128(v_1: (u128, u128), v_2: (u128, u128)) -> u128 {
     let dot_product = v_1.0 * v_2.0 + v_1.1 * v_2.1;
@@ -233,6 +267,8 @@ pub const fn spread_u128(v_1: (u128, u128), v_2: (u128, u128)) -> u128 {
 }
 
 /// Calculate cross product of two 2D vectors with u128 coordinates
+///
+/// $$ \text{cross}(v_1, v_2) = |x_1 y_2 - y_1 x_2| $$
 ///
 /// Note: Uses wrapping subtraction since cross product can be negative.
 /// For unsigned types, the result is the absolute value of the cross product.
