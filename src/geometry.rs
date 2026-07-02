@@ -7,6 +7,19 @@ use core::ops::{Add, Mul, Sub};
 use num_traits::{One, Zero};
 
 /// A 2D point with coordinates of type T
+///
+/// The point's position in the 2D Cartesian plane:
+#[cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
+/// ```svgbob
+///        y
+///        ^
+///        |
+///    y1  *  P = (x1, y1)
+///        |
+///        *----+------> x
+///       O    x1
+/// ```
+))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Point2D<T> {
     pub x: T,
@@ -119,6 +132,7 @@ where
     T: Add<Output = T>,
 {
     type Output = Self;
+    /// $$ \vec{a} + \vec{b} = (a_x + b_x,\; a_y + b_y) $$
     fn add(self, other: Self) -> Self::Output {
         Self {
             x: self.x + other.x,
@@ -132,6 +146,7 @@ where
     T: Sub<Output = T>,
 {
     type Output = Self;
+    /// $$ \vec{a} - \vec{b} = (a_x - b_x,\; a_y - b_y) $$
     fn sub(self, other: Self) -> Self::Output {
         Self {
             x: self.x - other.x,
@@ -190,6 +205,7 @@ where
     T: Add<Output = T>,
 {
     type Output = Self;
+    /// $$ \vec{a} + \vec{b} = (a_x + b_x,\; a_y + b_y,\; a_z + b_z) $$
     fn add(self, other: Self) -> Self::Output {
         Self {
             x: self.x + other.x,
@@ -204,6 +220,7 @@ where
     T: Sub<Output = T>,
 {
     type Output = Self;
+    /// $$ \vec{a} - \vec{b} = (a_x - b_x,\; a_y - b_y,\; a_z - b_z) $$
     fn sub(self, other: Self) -> Self::Output {
         Self {
             x: self.x - other.x,
@@ -249,6 +266,20 @@ impl<T> From<(T, T, T)> for Line2D<T> {
 }
 
 /// A 2D triangle defined by three points
+///
+/// The triangle with its sides labeled with quadrances (q) and spreads (s):
+#[cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
+/// ```svgbob
+///           . P3
+///          / \
+///         /   \
+///   s3   /     \  s2
+///       /   Q3  \
+///      /         \
+///  P1 *─────Q1────* P2
+///         s1
+/// ```
+))]
 #[derive(Debug, Clone, Copy)]
 pub struct Triangle2D<T> {
     pub p1: Point2D<T>,
