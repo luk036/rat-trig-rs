@@ -2,7 +2,7 @@
 //!
 //! This example demonstrates the fundamental operations of rational trigonometry
 
-use num_rational::Ratio;
+use fractions::Fraction;
 use rat_trig_rs::geometry::*;
 use rat_trig_rs::trigonom::*;
 use rat_trig_rs::validation::*;
@@ -67,9 +67,9 @@ fn main() {
 
     // Example 5: Rational calculations
     println!("Example 5: Exact rational calculations");
-    let q1 = Ratio::new(1, 2);
-    let q2 = Ratio::new(1, 4);
-    let q3 = Ratio::new(1, 6);
+    let q1 = Fraction::<i32>::new(1, 2);
+    let q2 = Fraction::<i32>::new(1, 4);
+    let q3 = Fraction::<i32>::new(1, 6);
     let quadrea = archimedes(&q1, &q2, &q3);
     println!("  Archimedes formula with rational sides:");
     println!("    q1 = {}, q2 = {}, q3 = {}", q1, q2, q3);

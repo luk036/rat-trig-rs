@@ -769,6 +769,49 @@ mod tests {
     }
 
     #[test]
+    fn test_vector2d_add_rational() {
+        use fractions::Fraction;
+        let v1 = Vector2D::new(Fraction::<i32>::new(1, 2), Fraction::<i32>::new(1, 3));
+        let v2 = Vector2D::new(Fraction::<i32>::new(1, 4), Fraction::<i32>::new(1, 6));
+        let result = v1 + v2;
+        assert_eq!(result.x, Fraction::<i32>::new(3, 4));
+        assert_eq!(result.y, Fraction::<i32>::new(1, 2));
+    }
+
+    #[test]
+    fn test_triangle2d_quadrances_rational() {
+        use fractions::Fraction;
+        let p1 = Point2D::new(Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = Point2D::new(Fraction::<i32>::new(3, 1), Fraction::<i32>::new(0, 1));
+        let p3 = Point2D::new(Fraction::<i32>::new(0, 1), Fraction::<i32>::new(4, 1));
+        let triangle = Triangle2D::new(p1, p2, p3);
+        let (q1, q2, q3) = triangle.quadrances();
+        assert_eq!(q1, Fraction::<i32>::new(25, 1));
+        assert_eq!(q2, Fraction::<i32>::new(16, 1));
+        assert_eq!(q3, Fraction::<i32>::new(9, 1));
+    }
+
+    #[test]
+    fn test_triangle2d_area_rational() {
+        use fractions::Fraction;
+        let p1 = Point2D::new(Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = Point2D::new(Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        let p3 = Point2D::new(Fraction::<i32>::new(0, 1), Fraction::<i32>::new(1, 1));
+        let triangle = Triangle2D::new(p1, p2, p3);
+        assert_eq!(triangle.area(), Fraction::<i32>::new(4, 1));
+    }
+
+    #[test]
+    fn test_triangle2d_twist_rational() {
+        use fractions::Fraction;
+        let p1 = Point2D::new(Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = Point2D::new(Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        let p3 = Point2D::new(Fraction::<i32>::new(0, 1), Fraction::<i32>::new(1, 1));
+        let triangle = Triangle2D::new(p1, p2, p3);
+        assert_eq!(triangle.twist(), Fraction::<i32>::new(1, 1));
+    }
+
+    #[test]
     fn test_triangle3d_quadrances_3d() {
         let p1 = Point3D::new(0, 0, 0);
         let p2 = Point3D::new(1, 0, 1);

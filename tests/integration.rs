@@ -2,7 +2,7 @@
 //!
 //! These tests demonstrate practical applications of rational trigonometry
 
-use num_rational::Ratio;
+use fractions::Fraction;
 use rat_trig_rs::geometry::*;
 use rat_trig_rs::trigonom::*;
 use rat_trig_rs::validation::*;
@@ -82,18 +82,18 @@ fn test_point_in_triangle_scenario() {
 #[test]
 fn test_rational_triangle_properties() {
     // Test with rational numbers for exact calculations
-    let p1 = (Ratio::new(0, 1), Ratio::new(0, 1));
-    let p2 = (Ratio::new(3, 1), Ratio::new(0, 1));
-    let p3 = (Ratio::new(0, 1), Ratio::new(4, 1));
+    let p1 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+    let p2 = (Fraction::<i32>::new(3, 1), Fraction::<i32>::new(0, 1));
+    let p3 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(4, 1));
 
     let (q1, q2, q3) = quadrance_from_three_points(p1, p2, p3);
 
-    assert_eq!(q1, Ratio::new(25, 1));
-    assert_eq!(q2, Ratio::new(16, 1));
-    assert_eq!(q3, Ratio::new(9, 1));
+    assert_eq!(q1, Fraction::<i32>::new(25, 1));
+    assert_eq!(q2, Fraction::<i32>::new(16, 1));
+    assert_eq!(q3, Fraction::<i32>::new(9, 1));
 
     let quadrea = archimedes(&q1, &q2, &q3);
-    assert_eq!(quadrea, Ratio::new(576, 1));
+    assert_eq!(quadrea, Fraction::<i32>::new(576, 1));
 }
 
 #[test]

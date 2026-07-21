@@ -43,13 +43,13 @@ use core::ops::{Add, Div, Mul, Sub};
 /// Example:
 ///
 /// ```rust
-/// use num_rational::Rational32;
+/// use fractions::Fraction;
 /// use rat_trig_rs::trigonom::archimedes;
-/// let q_1 = Rational32::new(1, 2);
-/// let q_2 = Rational32::new(1, 4);
-/// let q_3 = Rational32::new(1, 6);
+/// let q_1 = Fraction::<i32>::new(1, 2);
+/// let q_2 = Fraction::<i32>::new(1, 4);
+/// let q_3 = Fraction::<i32>::new(1, 6);
 /// let quadrea = archimedes(&q_1, &q_2, &q_3);
-/// assert_eq!(quadrea, Rational32::new(23, 144));
+/// assert_eq!(quadrea, Fraction::<i32>::new(23, 144));
 /// ```
 #[inline]
 pub fn archimedes<T>(q_1: &T, q_2: &T, q_3: &T) -> T
@@ -87,8 +87,8 @@ where
 #[cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
 /// ```svgbob
 ///  .───────────.           .───────────────.
-///  │ (x1, y1)  │───► dx²──►               │
-///  │ (x2, y2)  │───► dy²──►  Q = dx² + dy²│
+///  │ (x1, y1)  │───► dx²──►│               │
+///  │ (x2, y2)  │───► dy²──►│  Q = dx² + dy²│
 ///  '───────────'           '───────────────'
 /// ```
 ))]
@@ -128,9 +128,9 @@ where
 #[cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
 /// ```svgbob
 ///  .───────────.           .───────────────.
-///  │ (v1x,v1y) │───► dot──►               │
-///  │ (v2x,v2y) │───► |v|²─►  s = 1 -     │
-///  '───────────'           │  (dot/|v|)²  │
+///  │ (v1x,v1y) │───► dot──►│               │
+///  │ (v2x,v2y) │───► |v|²─►│  s = 1 -      │
+///  '───────────'           │  (dot/|v|)²   │
 ///                          '───────────────'
 /// ```
 ))]
@@ -670,7 +670,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use num_rational::Ratio;
+    use fractions::Fraction;
 
     #[test]
     fn test_archimedes2() {
@@ -690,26 +690,26 @@ mod tests {
 
     #[test]
     fn test_archimedes() {
-        let q_1 = Ratio::<i32>::new(1, 2);
-        let q_2 = Ratio::<i32>::new(1, 4);
-        let q_3 = Ratio::<i32>::new(1, 6);
-        assert_eq!(archimedes(&q_1, &q_2, &q_3), Ratio::<i32>::new(23, 144));
+        let q_1 = Fraction::<i32>::new(1, 2);
+        let q_2 = Fraction::<i32>::new(1, 4);
+        let q_3 = Fraction::<i32>::new(1, 6);
+        assert_eq!(archimedes(&q_1, &q_2, &q_3), Fraction::<i32>::new(23, 144));
     }
 
     #[test]
     fn test_archimedes_zero() {
-        let q_1 = Ratio::<i64>::new(0, 1);
-        let q_2 = Ratio::<i64>::new(0, 1);
-        let q_3 = Ratio::<i64>::new(0, 1);
-        assert_eq!(archimedes(&q_1, &q_2, &q_3), Ratio::<i64>::new(0, 1));
+        let q_1 = Fraction::<i64>::new(0, 1);
+        let q_2 = Fraction::<i64>::new(0, 1);
+        let q_3 = Fraction::<i64>::new(0, 1);
+        assert_eq!(archimedes(&q_1, &q_2, &q_3), Fraction::<i64>::new(0, 1));
     }
 
     #[test]
     fn test_archimedes_negative() {
-        let q_1 = Ratio::<i64>::new(-1, 2);
-        let q_2 = Ratio::<i64>::new(-1, 4);
-        let q_3 = Ratio::<i64>::new(-1, 6);
-        assert_eq!(archimedes(&q_1, &q_2, &q_3), Ratio::<i64>::new(23, 144));
+        let q_1 = Fraction::<i64>::new(-1, 2);
+        let q_2 = Fraction::<i64>::new(-1, 4);
+        let q_3 = Fraction::<i64>::new(-1, 6);
+        assert_eq!(archimedes(&q_1, &q_2, &q_3), Fraction::<i64>::new(23, 144));
     }
 
     #[test]
@@ -814,16 +814,16 @@ mod tests {
     #[test]
     fn test_quadrance3d_rational() {
         let p1 = (
-            Ratio::<i32>::new(0, 1),
-            Ratio::<i32>::new(0, 1),
-            Ratio::<i32>::new(0, 1),
+            Fraction::<i32>::new(0, 1),
+            Fraction::<i32>::new(0, 1),
+            Fraction::<i32>::new(0, 1),
         );
         let p2 = (
-            Ratio::<i32>::new(1, 1),
-            Ratio::<i32>::new(2, 1),
-            Ratio::<i32>::new(2, 1),
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(2, 1),
+            Fraction::<i32>::new(2, 1),
         );
-        assert_eq!(quadrance3d(p1, p2), Ratio::<i32>::new(9, 1));
+        assert_eq!(quadrance3d(p1, p2), Fraction::<i32>::new(9, 1));
     }
 
     #[test]
@@ -875,6 +875,179 @@ mod tests {
         let p2 = (1, 0);
         let p3 = (0, -1);
         assert_eq!(twist(p1, p2, p3), -1);
+    }
+
+    // -----------------------------------------------------------------------
+    // Fraction tests
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn test_quadrance_rational() {
+        let p1 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = (Fraction::<i32>::new(3, 1), Fraction::<i32>::new(4, 1));
+        assert_eq!(quadrance(p1, p2), Fraction::<i32>::new(25, 1));
+    }
+
+    #[test]
+    fn test_spread_rational() {
+        let v1 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(1, 1));
+        let v2 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        // spread = 1 - (1*1+1*0)² / (1²+1²)(1²+0²) = 1 - 1/2 = 1/2
+        assert_eq!(spread(v1, v2), Fraction::<i32>::new(1, 2));
+    }
+
+    #[test]
+    fn test_cross_rational() {
+        let v1 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(1, 1));
+        let v2 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        assert_eq!(cross(v1, v2), Fraction::<i32>::new(-1, 1));
+    }
+
+    #[test]
+    fn test_quadrance_from_line_rational() {
+        let p = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(1, 1));
+        let l = (
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(1, 1),
+        );
+        assert_eq!(quadrance_from_line(p, l), Fraction::<i32>::new(9, 2));
+    }
+
+    #[test]
+    fn test_spread_from_line_rational() {
+        let l1 = (
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(1, 1),
+        );
+        let l2 = (
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(0, 1),
+            Fraction::<i32>::new(0, 1),
+        );
+        assert_eq!(spread_from_line(l1, l2), Fraction::<i32>::new(1, 2));
+    }
+
+    #[test]
+    fn test_cross_from_line_rational() {
+        let l1 = (
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(1, 1),
+        );
+        let l2 = (
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(0, 1),
+            Fraction::<i32>::new(0, 1),
+        );
+        assert_eq!(cross_from_line(l1, l2), Fraction::<i32>::new(-1, 1));
+    }
+
+    #[test]
+    fn test_quadrance_from_three_points_rational() {
+        let p1 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        let p3 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(1, 1));
+        let (q1, q2, q3) = quadrance_from_three_points(p1, p2, p3);
+        assert_eq!(q1, Fraction::<i32>::new(2, 1));
+        assert_eq!(q2, Fraction::<i32>::new(1, 1));
+        assert_eq!(q3, Fraction::<i32>::new(1, 1));
+    }
+
+    #[test]
+    fn test_spread_from_three_points_rational() {
+        let p1 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        let p3 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(1, 1));
+        let (s1, s2, s3) = spread_from_three_points(p1, p2, p3);
+        assert_eq!(s1, Fraction::<i32>::new(1, 1));
+        assert_eq!(s2, Fraction::<i32>::new(1, 2));
+        assert_eq!(s3, Fraction::<i32>::new(1, 2));
+    }
+
+    #[test]
+    fn test_cross_from_three_points_rational() {
+        let p1 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        let p3 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(1, 1));
+        assert_eq!(
+            cross_from_three_points(p1, p2, p3),
+            Fraction::<i32>::new(1, 1)
+        );
+    }
+
+    #[test]
+    fn test_cross3d_rational() {
+        let v1 = (
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(0, 1),
+            Fraction::<i32>::new(0, 1),
+        );
+        let v2 = (
+            Fraction::<i32>::new(0, 1),
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(0, 1),
+        );
+        let (x, y, z) = cross3d(v1, v2);
+        assert_eq!(x, Fraction::<i32>::new(0, 1));
+        assert_eq!(y, Fraction::<i32>::new(0, 1));
+        assert_eq!(z, Fraction::<i32>::new(1, 1));
+    }
+
+    #[test]
+    fn test_spread3d_rational() {
+        let v1 = (
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(0, 1),
+            Fraction::<i32>::new(0, 1),
+        );
+        let v2 = (
+            Fraction::<i32>::new(0, 1),
+            Fraction::<i32>::new(1, 1),
+            Fraction::<i32>::new(0, 1),
+        );
+        assert_eq!(spread3d(v1, v2), Fraction::<i32>::new(1, 1));
+    }
+
+    #[test]
+    fn test_twist_rational() {
+        let p1 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        let p3 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(1, 1));
+        assert_eq!(twist(p1, p2, p3), Fraction::<i32>::new(1, 1));
+    }
+
+    #[test]
+    fn test_turn_rational() {
+        let p1 = (Fraction::<i32>::new(0, 1), Fraction::<i32>::new(0, 1));
+        let p2 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        let p3 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(1, 1));
+        let (s, sign) = turn(p1, p2, p3);
+        assert_eq!(s, Fraction::<i32>::new(1, 1));
+        assert!(sign);
+    }
+
+    #[test]
+    fn test_dilatation_rational() {
+        let v1 = (Fraction::<i32>::new(1, 1), Fraction::<i32>::new(0, 1));
+        let v2 = (Fraction::<i32>::new(2, 1), Fraction::<i32>::new(0, 1));
+        assert_eq!(dilatation(v1, v2), Fraction::<i32>::new(4, 1));
+    }
+
+    #[test]
+    fn test_sine_law_product_rational() {
+        let q = Fraction::<i32>::new(4, 1);
+        let s = Fraction::<i32>::new(1, 2);
+        assert_eq!(sine_law_product(q, s), Fraction::<i32>::new(2, 1));
+    }
+
+    #[test]
+    fn test_cosine_law_rational() {
+        let q1 = Fraction::<i32>::new(2, 1);
+        let q2 = Fraction::<i32>::new(1, 1);
+        let q3 = Fraction::<i32>::new(1, 1);
+        assert_eq!(cosine_law(q1, q2, q3), Fraction::<i32>::new(1, 1));
     }
 }
 
