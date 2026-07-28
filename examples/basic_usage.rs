@@ -72,8 +72,8 @@ fn main() {
     let q3 = Fraction::<i32>::new(1, 6);
     let quadrea = archimedes(&q1, &q2, &q3);
     println!("  Archimedes formula with rational sides:");
-    println!("    q1 = {}, q2 = {}, q3 = {}", q1, q2, q3);
-    println!("    Quadrea = {} (exact rational result)\n", quadrea);
+    println!("    q1 = {:?}, q2 = {:?}, q3 = {:?}", q1, q2, q3);
+    println!("    Quadrea = {:?} (exact rational result)\n", quadrea);
 
     // Example 6: Validation
     println!("Example 6: Geometric validation");

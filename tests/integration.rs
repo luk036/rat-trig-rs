@@ -14,7 +14,6 @@ fn test_triangle_properties_from_coordinates() {
     let p2 = (3, 0);
     let p3 = (0, 4);
 
-    // Calculate quadrances (squared side lengths)
     let (q1, q2, q3) = quadrance_from_three_points(p1, p2, p3);
 
     // Verify: q1 = 25 (side opposite p1, distance between p2 and p3)
@@ -24,7 +23,6 @@ fn test_triangle_properties_from_coordinates() {
     assert_eq!(q2, 16);
     assert_eq!(q3, 9);
 
-    // Calculate spreads (squared sines of angles)
     let (s1, s2, s3) = spread_from_three_points(p1, p2, p3);
 
     // In a right triangle, one spread should be 1 (right angle)
@@ -36,7 +34,6 @@ fn test_triangle_properties_from_coordinates() {
 
 #[test]
 fn test_triangle_area_calculation() {
-    // Test Archimedes formula for area calculation
     let p1 = (0, 0);
     let p2 = (3, 0);
     let p3 = (0, 4);
@@ -103,7 +100,6 @@ fn test_3d_tetrahedron_face() {
     let p2 = (1, 0, 0);
     let p3 = (0, 1, 0);
 
-    // Calculate quadrances in 3D
     let q1 = quadrance3d(p2, p3);
     let q2 = quadrance3d(p1, p3);
     let q3 = quadrance3d(p1, p2);
@@ -112,39 +108,32 @@ fn test_3d_tetrahedron_face() {
     assert_eq!(q2, 1);
     assert_eq!(q3, 1);
 
-    // Calculate cross product
     let v1 = (p2.0 - p1.0, p2.1 - p1.1, p2.2 - p1.2);
     let v2 = (p3.0 - p1.0, p3.1 - p1.1, p3.2 - p1.2);
     let cross = cross3d(v1, v2);
 
-    // Cross product should be (0, 0, 1)
     assert_eq!(cross, (0, 0, 1));
 }
 
 #[test]
 fn test_geometry_primitives_triangle() {
-    // Test using geometry primitives
     let p1 = Point2D::new(0, 0);
     let p2 = Point2D::new(3, 0);
     let p3 = Point2D::new(0, 4);
 
     let triangle = Triangle2D::new(p1, p2, p3);
 
-    // Test quadrances
     let (q1, q2, q3) = triangle.quadrances();
     assert_eq!(q1, 25);
     assert_eq!(q2, 16);
     assert_eq!(q3, 9);
 
-    // Test area
     let area = triangle.area();
     assert_eq!(area, 576);
 
-    // Test twist
     let twist = triangle.twist();
     assert_eq!(twist, 12);
 
-    // Test degenerate check
     assert!(!triangle.is_degenerate());
 }
 
@@ -164,7 +153,6 @@ fn test_degenerate_triangle_detection() {
 
 #[test]
 fn test_vector_operations() {
-    // Test vector arithmetic
     let v1 = Vector2D::new(1, 2);
     let v2 = Vector2D::new(3, 4);
 
@@ -179,7 +167,6 @@ fn test_vector_operations() {
 
 #[test]
 fn test_turn_and_orientation() {
-    // Test turn function for orientation detection
     let p1 = (0.0, 0.0);
     let p2 = (1.0, 0.0);
     let p3 = (1.0, 1.0);

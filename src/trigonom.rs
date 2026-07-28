@@ -786,10 +786,6 @@ mod tests {
         assert_eq!(cross_from_three_points(p1, p2, p3), 1);
     }
 
-    // #[test]
-    // fn test_archimedes4() {
-    //     let q_1 = Fraction::<i64>::new(1, 2);
-
     #[test]
     fn test_quadrance3d() {
         let p1 = (0, 0, 0);
@@ -1049,9 +1045,4 @@ mod tests {
         let q3 = Fraction::<i32>::new(1, 1);
         assert_eq!(cosine_law(q1, q2, q3), Fraction::<i32>::new(1, 1));
     }
-}
-
-#[cfg(test)]
-mod quickcheck_tests {
-    // Note: Quickcheck tests are disabled for now due to integer overflow issues
 }
