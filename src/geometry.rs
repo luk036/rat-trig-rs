@@ -27,6 +27,7 @@ pub struct Point2D<T> {
 }
 
 impl<T> Point2D<T> {
+    #[inline]
     pub fn new(x: T, y: T) -> Self {
         Self { x, y }
     }
@@ -50,6 +51,7 @@ pub struct Point3D<T> {
 }
 
 impl<T> Point3D<T> {
+    #[inline]
     pub fn new(x: T, y: T, z: T) -> Self {
         Self { x, y, z }
     }
@@ -73,6 +75,7 @@ pub struct Vector2D<T> {
 }
 
 impl<T> Vector2D<T> {
+    #[inline]
     pub fn new(x: T, y: T) -> Self {
         Self { x, y }
     }
@@ -133,6 +136,7 @@ pub struct Vector3D<T> {
 }
 
 impl<T> Vector3D<T> {
+    #[inline]
     pub fn new(x: T, y: T, z: T) -> Self {
         Self { x, y, z }
     }
@@ -197,6 +201,7 @@ pub struct Line2D<T> {
 }
 
 impl<T> Line2D<T> {
+    #[inline]
     pub fn new(a: T, b: T, c: T) -> Self {
         Self { a, b, c }
     }
@@ -235,6 +240,7 @@ pub struct Triangle2D<T> {
 }
 
 impl<T> Triangle2D<T> {
+    #[inline]
     pub fn new(p1: Point2D<T>, p2: Point2D<T>, p3: Point2D<T>) -> Self {
         Self { p1, p2, p3 }
     }
@@ -282,6 +288,7 @@ impl<T> Triangle2D<T> {
     /// Check if the triangle is degenerate (all points collinear)
     ///
     /// $$ \text{twist} = 0 $$
+    #[inline]
     pub fn is_degenerate(&self) -> bool
     where
         T: Copy + Sub<Output = T> + Mul<Output = T> + Zero + PartialEq,
@@ -299,6 +306,7 @@ pub struct Triangle3D<T> {
 }
 
 impl<T> Triangle3D<T> {
+    #[inline]
     pub fn new(p1: Point3D<T>, p2: Point3D<T>, p3: Point3D<T>) -> Self {
         Self { p1, p2, p3 }
     }
